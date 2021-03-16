@@ -14,7 +14,7 @@ int main(int argc, char** argv){
             printf("%d ", ptr[i][k]);
             ptr[i][k] = k;
         }
-        
+        printf("\n");
     }
     printf("\n");
     
@@ -24,7 +24,7 @@ int main(int argc, char** argv){
         for(int k = 0; k < 5; ++k){
             printf("%d ", ptr[i][k]);
         }
-        
+        printf("\n");
     }
     printf("\n");
 
