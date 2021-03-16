@@ -11,11 +11,11 @@ int main(int argc, char** argv){
 
 
     int *ptr;
-    //ptr = malloc(sizeof(int));
-    printf("%p    %lu \n", page, sizeof(page));
+    ptr = malloc(sizeof(int));
+    printf("%p\n", ptr);
 
-    //*ptr = 5;
-    //printf("%d\n", *ptr);
+    *ptr = 5;
+    printf("%d\n", *ptr);
     
-    //free(ptr); 
+    free(ptr); 
 }
