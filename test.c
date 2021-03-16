@@ -9,11 +9,14 @@ int main(int argc, char** argv){
     ptr = malloc(5 * sizeof(int));
     for(int i = 0; i < 5; ++i){
         printf("%d\n", ptr[i]);
+        ptr[i] = i;
     }
     
 
-    *ptr = 5;
-    printf("%d\n", *ptr);
+    
+    for(int i = 0; i < 5; ++i){
+        printf("%d\n", ptr[i]);
+    }
 
     ptr = realloc(ptr, 1 * sizeof(int));
     //ptr[1] = 6;
