@@ -54,9 +54,11 @@ void * realloc(void * ptr, size_t size){
 
     void* newptr = malloc(size);
     memcpy(newptr, ptr, size);
-
+    free(ptr);
+    
     list[index].address = newptr;
     list[index].size = size;
+    
     
     return newptr;
 }
