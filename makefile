@@ -2,7 +2,7 @@ CC=clang
 CFLAGS=-Wall -g
 
 
-BINS=libmyalloc.so test
+BINS=libmyalloc.so t
 
 
 all: $(BINS)
@@ -14,7 +14,7 @@ perform: allocator.c
 	clang -O2 -DNDEBUG -Wall -fPIC -shared allocator.c -o libmyalloc.so
 
 t: test.c allocator.c
-	clang -Wall -g -o test test.c allocator.c
+	clang -Wall -g -o t test.c allocator.c
 
 
 clean:
