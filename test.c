@@ -33,5 +33,7 @@ int main(int argc, char** argv){
 
     //printf("%d\n", ptr[0]);
     
-    free(ptr); 
+    for(int i = 0; i < 5; ++i){
+        free(ptr[i]); 
+    }
 }
