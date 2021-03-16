@@ -13,7 +13,7 @@ libmyalloc.so: allocator.c
 perform: allocator.c
 	clang -O2 -DNDEBUG -Wall -fPIC -shared allocator.c -o libmyalloc.so
 
-test: test.c allocator.c
+t: test.c allocator.c
 	clang -Wall -g -o test test.c allocator.c
 
 
