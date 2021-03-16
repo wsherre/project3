@@ -5,25 +5,33 @@
 
 int main(int argc, char** argv){
 
-    int *ptr;
-    ptr = malloc(5 * sizeof(int));
+    int *ptr[5];
     for(int i = 0; i < 5; ++i){
-        printf("%d ", ptr[i]);
-        ptr[i] = i;
+        ptr[i] = malloc(5 * sizeof(int));
+    } 
+    for(int i = 0; i < 5; ++i){
+        for(int k = 0; k < 5; ++k){
+            printf("%d ", ptr[i][k]);
+            ptr[i][k] = k;
+        }
+        
     }
     printf("\n");
     
 
     
     for(int i = 0; i < 5; ++i){
-        printf("%d ", ptr[i]);
+        for(int k = 0; k < 5; ++k){
+            printf("%d ", ptr[i][k]);
+        }
+        
     }
     printf("\n");
 
-    ptr = realloc(ptr, 1 * sizeof(int));
+    //ptr = realloc(ptr, 1 * sizeof(int));
     //ptr[1] = 6;
 
-    printf("%d\n", ptr[0]);
+    //printf("%d\n", ptr[0]);
     
     free(ptr); 
 }
