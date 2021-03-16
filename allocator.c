@@ -11,7 +11,7 @@ typedef struct free_list{
 }free_list;
 
 
-free_list list[1000];
+free_list list[5000];
 int list_index = 0;
 
 
@@ -55,7 +55,7 @@ void * realloc(void * ptr, size_t size){
     void* newptr = malloc(size);
     memcpy(newptr, ptr, size);
     free(ptr);
-    
+
     list[index].address = newptr;
     list[index].size = size;
     
