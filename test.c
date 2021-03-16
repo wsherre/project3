@@ -17,5 +17,5 @@ int main(int argc, char** argv){
     //*ptr = 5;
     //printf("%d\n", *ptr);
     
-    //free(ptr);
+    //free(ptr); 
 }
