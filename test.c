@@ -6,7 +6,7 @@
 int main(int argc, char** argv){
 
     int *ptr;
-    ptr = calloc(5, sizeof(int));
+    ptr = malloc(5 * sizeof(int));
     for(int i = 0; i < 5; ++i){
         printf("%d\n", ptr[i]);
     }
