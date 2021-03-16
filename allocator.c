@@ -7,7 +7,7 @@ int search(void*);
 
 typedef struct free_list{
     void * address;
-    int size;
+    size_t size;
 }free_list;
 
 
@@ -39,7 +39,26 @@ void free(void * ptr){
     munmap(list[index].address, list[index].size);
 }
 
-int search(void* ptr){
+void * calloc(size_t num, size_t size){
+    void * ptr = malloc(num * size);
+    memset(ptr, 0, num * size);
+    return ptr;
+}
+
+void * realloc(void * ptr, size_t size){
+    if(ptr == NULL){
+        return malloc(size);
+    }
+
+    int index = search(ptr);
+    free_list old = list[index];
+
+    void* newptr = malloc(size);
+    memcpy(newptr, ptr, size);
+    return newptr;
+}
+
+int search(void * ptr){
     for(int i = 0; i < 1000; ++i){
         if(list[i].address == ptr){
             return i;
