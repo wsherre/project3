@@ -51,10 +51,13 @@ void * realloc(void * ptr, size_t size){
     }
 
     int index = search(ptr);
-    free_list old = list[index];
 
     void* newptr = malloc(size);
     memcpy(newptr, ptr, size);
+
+    list[index].address = newptr;
+    list[index].size = size;
+    
     return newptr;
 }
 
