@@ -16,7 +16,7 @@ int list_index = 0;
 
 
 void lib_init(){
-    for(int i = 0; i < 1000; ++i){
+    for(int i = 0; i < 5000; ++i){
         list[i].address = NULL;
         list[i].size = 0;
     }
@@ -37,6 +37,8 @@ void * malloc(size_t size){
 void free(void * ptr){
     int index = search(ptr);
     munmap(list[index].address, list[index].size);
+    list[index].address = NULL;
+    list[index].size = 0;
 }
 
 void * calloc(size_t num, size_t size){
