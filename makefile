@@ -2,10 +2,10 @@ CC=clang
 CFLAGS=-Wall -g
 
 
-BINS=libmyalloc.so t
+BINS=libmyalloc.so t perform
 
 
-all: $(BINS)
+all: libmyalloc.so
 
 libmyalloc.so: allocator.c
 	$(CC) $(CFLAGS) -fPIC -shared allocator.c -o libmyalloc.so
