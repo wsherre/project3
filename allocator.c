@@ -13,6 +13,7 @@ typedef struct free_list{
 
 free_list list[5000];
 int list_index = 0;
+int fd;
 
 
 void lib_init(){
@@ -20,10 +21,10 @@ void lib_init(){
         list[i].address = NULL;
         list[i].size = 0;
     }
+    fd = open ("/dev/zero", O_RDWR ) ;
 }
 
 void * malloc(size_t size){
-    int fd = open ("/dev/zero", O_RDWR ) ;
 
     void * page = mmap ( NULL , size , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
 
