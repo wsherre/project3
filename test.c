@@ -36,4 +36,11 @@ int main(int argc, char** argv){
     for(int i = 0; i < 5; ++i){
         free(ptr[i]); 
     }
+
+    int *ptr[2] = malloc(2* sizeof(int));
+    ptr[0] = 5;
+    ptr[1] = 10;
+    realloc(ptr, sizeof(int));
+    printf("%d    %d\n", ptr[0], ptr[1]);
+    free(ptr);
 }

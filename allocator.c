@@ -4,6 +4,7 @@
 #include <string.h>
 void __attribute__((constructor)) lib_init();
 int search(void*);
+#define list_size 5000
 
 typedef struct free_list{
     void * address;
@@ -11,13 +12,13 @@ typedef struct free_list{
 }free_list;
 
 
-free_list list[5000];
+free_list list[list_size];
 int list_index = 0;
 int fd;
 
 
 void lib_init(){
-    for(int i = 0; i < 5000; ++i){
+    for(int i = 0; i < list_size; ++i){
         list[i].address = NULL;
         list[i].size = 0;
     }
@@ -37,9 +38,11 @@ void * malloc(size_t size){
 
 void free(void * ptr){
     int index = search(ptr);
-    munmap(list[index].address, list[index].size);
-    list[index].address = NULL;
-    list[index].size = 0;
+    if(index != -1){
+        munmap(list[index].address, list[index].size);
+        list[index].address = NULL;
+        list[index].size = 0;
+    }
 }
 
 void * calloc(size_t num, size_t size){
@@ -67,10 +70,12 @@ void * realloc(void * ptr, size_t size){
 }
 
 int search(void * ptr){
-    for(int i = 0; i < 1000; ++i){
+    if(ptr == NULL) return -1;
+    
+    for(int i = 0; i < list_size; ++i){
         if(list[i].address == ptr){
             return i;
         }
     }
-    exit(0);
+    return -1;
 }
