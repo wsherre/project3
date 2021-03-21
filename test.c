@@ -37,10 +37,10 @@ int main(int argc, char** argv){
         free(ptr[i]); 
     }
 
-    int *ptr[2] = malloc(2* sizeof(int));
-    ptr[0] = 5;
-    ptr[1] = 10;
-    realloc(ptr, sizeof(int));
-    printf("%d    %d\n", ptr[0], ptr[1]);
-    free(ptr);
+    int *pt[2] = malloc(2* sizeof(int));
+    pt[0] = 5;
+    pt[1] = 10;
+    realloc(pt, sizeof(int));
+    printf("%d    %d\n", pt[0], pt[1]);
+    free(pt);
 }
