@@ -42,6 +42,6 @@ int main(int argc, char** argv){
     pt[0] = 5;
     pt[1] = 10;
     pt  = realloc(pt, sizeof(int));
-    printf("%d    %p\n", pt[0], pt );
+    printf("%d    %p     %d\n", pt[0], pt, sizeof(pt) );
     free(pt);
 }
