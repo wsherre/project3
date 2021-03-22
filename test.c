@@ -38,7 +38,7 @@ int main(int argc, char** argv){
     }
 
     int *pt;
-    pt = malloc(2* sizeof(int));
+    pt = malloc(3* sizeof(int));
     pt[0] = 5;
     pt[1] = 10;
     pt  = realloc(pt, sizeof(int));
