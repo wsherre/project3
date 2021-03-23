@@ -37,6 +37,8 @@ void * malloc(size_t size){
 }
 
 void free(void * ptr){
+    if(ptr == NULL) return;
+    
     int index = search(ptr);
     if(index != -1){
         munmap(list[index].address, list[index].size);
@@ -71,7 +73,7 @@ void * realloc(void * ptr, size_t size){
 
 int search(void * ptr){
     if(ptr == NULL) return -1;
-    
+
     for(int i = 0; i < list_size; ++i){
         if(list[i].address == ptr){
             return i;
