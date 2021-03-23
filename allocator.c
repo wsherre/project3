@@ -4,7 +4,7 @@
 #include <string.h>
 void __attribute__((constructor)) lib_init();
 int search(void*);
-#define list_size 5000
+#define list_size 100000
 
 typedef struct free_list{
     void * address;
@@ -27,6 +27,7 @@ void lib_init(){
 
 void * malloc(size_t size){
 
+    if(size == 0) return NULL;
     void * page = mmap ( NULL , size , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
 
     list[list_index].address = page;
@@ -38,7 +39,7 @@ void * malloc(size_t size){
 
 void free(void * ptr){
     if(ptr == NULL) return;
-    
+
     int index = search(ptr);
     if(index != -1){
         munmap(list[index].address, list[index].size);
