@@ -29,15 +29,10 @@ void lib_init(){
         temp += 2;
         *temp = (int)NULL;
         temp ++;
-        *temp = 0;
-        temp = map_list[i];
-
-        fprintf(stdout, "%p\t%d\n", temp, *temp);
-        temp+=2;
-        fprintf(stdout, "%p\t%d\n", temp, *temp);
-        temp++;
-        fprintf(stdout, "%p\t%d\n", temp, *temp);
-
+        fprintf(stdout, "%p\n", temp);
+        int * test = ((int)temp++) | 0x00000fff;
+        fprintf(stdout, "%p\t\t%p\t%d\n", temp, test, *test);
+        
     }
     
 }
