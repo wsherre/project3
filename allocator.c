@@ -27,9 +27,9 @@ void lib_init(){
         temp = map_list[i];
         *temp = 0;
         temp += 2;
-        *temp = 54096;
+        *temp = NULL;
         temp ++;
-        *temp = 22;
+        *temp = 0;
         temp = map_list[i];
 
         fprintf(stdout, "%p\t%d\n", temp, *temp);
