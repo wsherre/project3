@@ -6,6 +6,7 @@
 #include <math.h>
 void __attribute__((constructor)) lib_init();
 int search(void*);
+void*new_map();
 #define list_size 9
 
 
