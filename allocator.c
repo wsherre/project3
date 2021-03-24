@@ -66,7 +66,7 @@ void * malloc(size_t size){
         ptr = (long)(next_ptr + 1) & 0x0fff;
         
         *next_ptr = ptr;
-        *free_list = ptr;
+        *(page_start + 3) = ptr;
         return return_ptr;
     }
     return NULL;
