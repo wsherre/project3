@@ -30,12 +30,12 @@ void lib_init(){
         *temp = (int)NULL;
         temp ++;
         fprintf(stdout, "%p\n", temp);
-        int * test = temp + 1;
-        fprintf(stdout, "%p\n", test);
-        unsigned int t = (unsigned int)test & 0x0fff;
+        //int * test = temp + 1;
+        //fprintf(stdout, "%p\n", test);
+        unsigned int t = (unsigned int)(temp + 1) & 0x0fff;
         fprintf(stdout, "%d\n", t);
         *temp = t;
-        fprintf(stdout, "%p\t%d\n\t%p\t%d\n", temp, *temp, test, *test);
+        fprintf(stdout, "%p\t%d\n", temp, *temp);
         
     }
     
