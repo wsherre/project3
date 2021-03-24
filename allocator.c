@@ -43,6 +43,7 @@ void lib_init(){
         v |= v >> 8;
         v |= v >> 16;
         v++;
+        int l = 5;
         
     }
     
