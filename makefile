@@ -14,7 +14,7 @@ perform: allocator.c
 	clang -O2 -DNDEBUG -Wall -fPIC -shared allocator.c -o libmyalloc.so
 
 t: test.c allocator.c
-	clang -Wall -g -o t test.c allocator.c
+	clang -Wall -g -o t test.c allocator.c -lm
 
 
 clean:
