@@ -56,7 +56,15 @@ void * malloc(size_t size){
         int i = log(v)/log(2) - 3;
         int* page_start = map_list[i];
         int* next_page = page_start + 1;
+        while(next_page != NULL){
+            page_start = next_page;
+            next_page = page_start + 1;
+        }
         unsigned int offset = ( unsigned int)*(page_start + 3);
+        if(offset == 0xffff){
+            *next_page = new_map();
+            return malloc(size);
+        }
         int* free_list = NULL;
         free_list = (int*) page_start;
         free_list = (int*) ((long)free_list | (long)offset);
@@ -67,7 +75,7 @@ void * malloc(size_t size){
         int ptr = 0;
 
         if(((int)(next_ptr + 1) & 0x0fff) > 0x0fff) 
-            ptr = (int)NULL;
+            ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
         
@@ -90,4 +98,21 @@ void * calloc(size_t num, size_t size){
 
 void * realloc(void * ptr, size_t size){
     return NULL;
+}
+
+void* new_map(){
+        int* temp;
+        void * map = mmap ( NULL , 4096 , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
+        temp = map;
+        *temp = 0;
+        temp++;
+        *temp = (int)NULL;
+        temp+=2;
+        //fprintf(stdout, "%p\n", temp);
+        unsigned int t = (unsigned int)(temp + 1) & 0x00000fff;
+        //fprintf(stdout, "%d\n", t);
+        *temp = t;
+        //fprintf(stdout, "%p\t%d\n", temp, *temp);
+
+        return map;
 }
