@@ -30,7 +30,7 @@ void lib_init(){
         *temp = (int)NULL;
         temp+=2;
         //fprintf(stdout, "%p\n", temp);
-        unsigned int t = (unsigned int)(temp + 1) & 0x0fff;
+        unsigned int t = (unsigned int)(temp + 1) & 0x00000fff;
         //fprintf(stdout, "%d\n", t);
         *temp = t;
         //fprintf(stdout, "%p\t%d\n", temp, *temp);
@@ -55,10 +55,10 @@ void * malloc(size_t size){
         
         int i = log(v)/log(2) - 3;
         int* page_start = map_list[i];
-        unsigned int offset = ( unsigned int)(page_start + 3);
+        unsigned int offset = ( unsigned int)*(page_start + 3);
         int* free_list = NULL;
-        free_list = (int*) ((long)page_start & 0x000);
-        free_list = (int*) ((int)free_list | (long)offset);
+        free_list = (int*) page_start;
+        free_list = (int*) ((long)free_list | (long)offset);
 
         int* return_ptr = free_list;
 
