@@ -34,16 +34,6 @@ void lib_init(){
         //fprintf(stdout, "%d\n", t);
         *temp = t;
         //fprintf(stdout, "%p\t%d\n", temp, *temp);
-
-        unsigned int v = 5;
-        v--;
-        v |= v >> 1;
-        v |= v >> 2;
-        v |= v >> 4;
-        v |= v >> 8;
-        v |= v >> 16;
-        v++;
-        int l = 5;
         
     }
     
@@ -52,34 +42,30 @@ void lib_init(){
 void * malloc(size_t size){
 
     if(size == 0) return NULL;
+    //this simple algorithm rounds up the size to the next highest power of 2
+    unsigned v = size;
+    if(size <= 1024){
+        v--;
+        v |= v >> 1;
+        v |= v >> 2;
+        v |= v >> 4;
+        v |= v >> 8;
+        v |= v >> 16;
+        v++;
+        
+        int i = log2(v) - 3;
+        int* page_start = map_list[i];
+        int offset = (int)page_start + 3;
+        int* free_list = (int)page_start & offset;
 
-    if(size <= 8){
-        int* ptr = map_list[0];
+        int* return_ptr = free_list;
 
-    }else if(size > 8 && size <= 16){
-        int* ptr = map_list[0];
-
-    }else if(size > 16 && size <= 32){
-        int* ptr = map_list[0];
-
-    }else if(size > 32 && size <= 64){
-        int* ptr = map_list[0];
-
-    }else if(size > 64 && size <= 128){
-        int* ptr = map_list[0];
-
-    }else if(size > 128 && size <= 256){
-        int* ptr = map_list[0];
-
-    }else if(size > 256 && size <= 512){
-        int* ptr = map_list[0];
-
-    }else if(size > 512 && size <= 1024){
-        int* ptr = map_list[0];
-
-    }else{
-
+        int* next_ptr = return_ptr + v/4;
+        *next_ptr = (int)next_ptr++;
+        *free_list = (int)next_ptr;
+        return return_ptr;
     }
+    return NULL;
 }
 
 void free(void * ptr){
