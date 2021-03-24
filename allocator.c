@@ -57,7 +57,7 @@ void * malloc(size_t size){
         int i = log(v)/log(2) - 3;
         int* page_start = map_list[i];
         int* next_page = page_start + 1;
-        while(*next_page != (int)NULL){
+        while(*next_page != (long)NULL){
             page_start = next_page;
             next_page = page_start + 1;
         }
@@ -75,7 +75,7 @@ void * malloc(size_t size){
         int* next_ptr = free_list + v/8;
         int ptr = 0;
 
-        if(((int)(next_ptr + 1) & 0x0fff) > 0x0fff) 
+        if(((long)(next_ptr + 1) & 0x0fff) > 0x0fff) 
             ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
