@@ -27,7 +27,7 @@ void lib_init(){
         temp = map_list[i];
         *temp = 0;
         temp += 2;
-        *temp = NULL;
+        *temp = (int)NULL;
         temp ++;
         *temp = 0;
         temp = map_list[i];
