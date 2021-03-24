@@ -11,7 +11,7 @@ int main(int argc, char** argv){
     int* i = NULL;
     ptr = malloc(5);
     h = malloc(6);
-    i = malloc(7);
+    i = malloc(9);
     *ptr = 16;
     *h = 5;
     *i = 22;

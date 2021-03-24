@@ -64,7 +64,11 @@ void * malloc(size_t size){
 
         int* next_ptr = free_list + v/8;
         int ptr = 0;
-        ptr = (long)(next_ptr + 1) & 0x0fff;
+        
+        if(next_ptr + 1 > 0x0fff) 
+            ptr = (int)NULL;
+        else 
+            ptr = (long)(next_ptr + 1) & 0x0fff;
         
         *next_ptr = ptr;
         *(page_start + 3) = ptr;
