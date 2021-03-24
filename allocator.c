@@ -26,9 +26,14 @@ void lib_init(){
         map_list[i] = mmap ( NULL , 4096 , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
         temp = map_list[i];
         *temp = 0;
-        fprintf(stdout, "%p\n", temp);
-        temp++;
-        fprintf(stdout, "%p\n", temp);
+        temp += 2;
+        temp = NULL;
+        temp ++;
+        temp = 0;
+        temp = map_list[i];
+
+        fprintf(stdout, "%p\t%d\n%p\t%d\n%p\t%d\n", temp, *temp, temp+=2, *temp, temp++, *temp);
+
     }
     
 }
