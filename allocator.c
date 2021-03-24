@@ -56,12 +56,12 @@ void * malloc(size_t size){
         int i = log2(v) - 3;
         int* page_start = map_list[i];
         int offset = (int)page_start + 3;
-        int* free_list = (int)page_start & offset;
+        int* free_list = (int*) ((int)page_start & offset);
 
         int* return_ptr = free_list;
 
         int* next_ptr = return_ptr + v/4;
-        *next_ptr = (int)next_ptr++;
+        *next_ptr = (int)(next_ptr++);
         *free_list = (int)next_ptr;
         return return_ptr;
     }
