@@ -31,7 +31,7 @@ void lib_init(){
         temp ++;
         fprintf(stdout, "%p\n", temp);
         int * test = NULL;
-        *test = ((int)temp++) | 0x00000fff;
+        *test = ((int)temp) | 0x0fff;
         fprintf(stdout, "%p\t\t%p\t%d\n", temp, test, *test);
         
     }
