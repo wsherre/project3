@@ -30,8 +30,11 @@ void lib_init(){
         *temp = (int)NULL;
         temp ++;
         fprintf(stdout, "%p\n", temp);
-        int * test = NULL;
-        *test = ((int)temp) | 0x0fff;
+        int * test = temp + 1;
+        fprintf(stdout, "%p\n", test);
+        int t = (int)test | 0x0fff;
+        fprintf(stdout, "%d\n", t);
+        *temp = t;
         fprintf(stdout, "%p\t\t%p\t%d\n", temp, test, *test);
         
     }
