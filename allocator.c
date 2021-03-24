@@ -35,7 +35,7 @@ void lib_init(){
         unsigned int t = (unsigned int)test & 0x0fff;
         fprintf(stdout, "%d\n", t);
         *temp = t;
-        fprintf(stdout, "%p\t\t%p\t%d\n", temp, test, *test);
+        fprintf(stdout, "%p\t%d\n\t%p\t%d\n", temp, *temp, test, *test);
         
     }
     
