@@ -74,8 +74,10 @@ void * malloc(size_t size){
 
         int* next_ptr = free_list + v/4;
         int ptr = 0;
-
-        if(((long)(next_ptr + 1) & 0xffff) > 0x0fff) 
+        
+        
+        int num = (0xfff - (int)(next_ptr + 1));
+        if (num < v + 4) 
             ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
