@@ -64,7 +64,7 @@ void * malloc(size_t size){
         }
         unsigned int offset = ( unsigned int)*(page_start + 3);
         if(offset == 0xffff){
-            int * n_map = new_map();
+            long * n_map = new_map();
             *next_page = (long)n_map;
             return malloc(size);
         }
