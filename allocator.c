@@ -76,7 +76,7 @@ void * malloc(size_t size){
         int ptr = 0;
         
         
-        int num = (0xfff - (int)(next_ptr + 1));
+        int num = 0xfff - ((int)(next_ptr + 1) & 0xfff);
         if (num < v + 4) 
             ptr = 0xffff;
         else 
