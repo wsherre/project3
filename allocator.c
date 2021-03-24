@@ -55,7 +55,7 @@ void * malloc(size_t size){
         
         int i = log(v)/log(2) - 3;
         int* page_start = map_list[i];
-        int offset = (int)(page_start + 3) & 0x0fff;
+        int offset = (int)(page_start + 3);
         int* free_list = NULL;
         free_list = (int*) ((long)page_start | (long)offset);
 
