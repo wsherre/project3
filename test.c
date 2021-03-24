@@ -6,15 +6,10 @@
 int main(int argc, char** argv){
 
     int* ptr = NULL;
-    int* h = NULL;
-
-    int* i = NULL;
-    ptr = malloc(5);
-    h = malloc(6);
-    i = malloc(9);
-    *ptr = 16;
-    *h = 5;
-    *i = 22;
-    fprintf(stdout, "%p\t%d\n%p\t%d\n%p\t%d\n", ptr, *ptr, h, *h, i, *i);
+    for(int i = 0; i < 350; ++i){
+        ptr = malloc(8);
+        *ptr = i;
+        fprintf(stdout, "%p\t%d\n", ptr, *ptr);
+    }
     return 0;
 }
