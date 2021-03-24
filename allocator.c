@@ -56,11 +56,11 @@ void * malloc(size_t size){
         
         int i = log(v)/log(2) - 3;
         int* page_start = map_list[i];
-        long* next_page = page_start + 1;
+        long* next_page = (long*)(page_start + 1);
         while(*next_page != (long)NULL){
             long* temp = next_page;
             page_start = (int*)*temp;
-            next_page = page_start + 1;
+            next_page = (long*)(page_start + 1);
         }
         unsigned int offset = ( unsigned int)*(page_start + 3);
         if(offset == 0xffff){
