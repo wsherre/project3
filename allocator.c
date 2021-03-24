@@ -26,9 +26,9 @@ void lib_init(){
         map_list[i] = mmap ( NULL , 4096 , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
         temp = map_list[i];
         *temp = 0;
-        temp += 2;
+        temp++;
         *temp = (int)NULL;
-        temp ++;
+        temp+=2;
         //fprintf(stdout, "%p\n", temp);
         unsigned int t = (unsigned int)(temp + 1) & 0x0fff;
         //fprintf(stdout, "%d\n", t);
