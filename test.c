@@ -19,10 +19,10 @@ int main(int argc, char** argv){
     *ptr[0] = 500;
     fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
     ptr[1] = malloc(4093);
-    *ptr[0] = 1000;
+    *ptr[1] = 1000;
     fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
     ptr[2] = malloc(8000);
-    *ptr[0] = 15000;
+    *ptr[2] = 15000;
     fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
 
     ptr[0] = realloc(ptr[0], 800);
