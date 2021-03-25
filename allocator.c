@@ -168,6 +168,7 @@ void * realloc(void * ptr, size_t size){
     long* page_start = (long*)temp;
     int old_length = 0;
 
+
     if(*page_start < 0){
         old_length = *page_start & 0x7fffffffffffffff;
     }else{
@@ -180,7 +181,7 @@ void * realloc(void * ptr, size_t size){
         free(page_start);
         return newptr;
     }
-    return page_start + 2;
+    return ptr;
 }
 
 void* new_map(int v){
