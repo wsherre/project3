@@ -84,7 +84,7 @@ void * malloc(size_t size){
         int ptr = 0;
         
         
-        int length = *page_start;
+        int length = *(page_start + 1);
         if (length < v + 4) 
             ptr = 0xffff;
         else 
