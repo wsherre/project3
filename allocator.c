@@ -67,7 +67,7 @@ void * malloc(size_t size){
         
         *page_start += (v + 4);
         int length = *page_start;
-        if ((page_size - length) < v + 4) 
+        if ((page_size - 20 - length) < v + 4) 
             ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
