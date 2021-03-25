@@ -8,9 +8,9 @@ int main(int argc, char** argv){
     int* ptr = NULL;
     for(int i = 0; i < 350; ++i){
         ptr = malloc(8);
-        free(ptr);
         *ptr = i;
         fprintf(stdout, "%p\t%d\n", ptr, *ptr);
+        free(ptr);
     }
     return 0;
 }
