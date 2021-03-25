@@ -78,7 +78,7 @@ void * malloc(size_t size){
         if(map_list[list_size - 1] == NULL){
             map_list[list_size - 1] = big_map(size);
             long* page_start =  map_list[list_size - 1];
-            page_start++;
+            page_start += 2;
             return page_start;
         }else{
             long* page_start =  map_list[list_size - 1];
