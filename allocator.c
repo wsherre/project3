@@ -102,7 +102,7 @@ void free(void * ptr){
     long*big_start = (long*)temp;
     long* next_page;
     int length, i, big = 0, size;
-    if(*big_start > 4096){
+    if(*big_start < 0){
         big = 1;
         size = *big_start & 0x7fffffffffffffff;
     }else{
