@@ -61,7 +61,7 @@ void * malloc(size_t size){
 
         void* return_ptr = (void*)free_list;
 
-        int* next_ptr = free_list + v/4;
+        int* next_ptr = (int*) (free_list + v/4);
         int ptr = 0;
         
         //*page_start += (v + 4);
