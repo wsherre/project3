@@ -56,18 +56,17 @@ void * malloc(size_t size){
             *next_page = (long)n_map;
             return malloc(size);
         }
-        int* free_list = NULL;
-        free_list = (int*) page_start;
-        free_list = (int*) ((long)free_list | (long)offset);
+        long* free_list = NULL;
+        free_list = (long*) ((long)page_start | (long)offset);
 
-        int* return_ptr = free_list;
+        void* return_ptr = (void*)free_list;
 
         int* next_ptr = free_list + v/4;
         int ptr = 0;
         
-        *page_start += (v + 4);
-        int length = *page_start;
-        if ((page_size - 20 - length) < v + 4) 
+        //*page_start += (v + 4);
+        int next_start = (int)next_ptr + 4;
+        if ((page_size  - next_start) < (v + 4)) 
             ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
