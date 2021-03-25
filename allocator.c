@@ -97,6 +97,7 @@ void * malloc(size_t size){
 }
 
 void free(void * ptr){
+    if(ptr == NULL) return;
     long temp = (long)ptr & ~0xfff;
     int* page_start = (int*)temp;
     long*big_start = (long*)temp;
