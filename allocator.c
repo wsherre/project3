@@ -66,7 +66,7 @@ void * malloc(size_t size){
         while(*next_page != (long)NULL){
             long* temp = next_page;
             page_start = (int*)*temp;
-            next_page = (long*)(page_start + 1);
+            next_page = (long*)(page_start + 2);
         }
         unsigned int offset = ( unsigned int)*(page_start + 4);
         if(offset == 0xffff){
