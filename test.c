@@ -11,7 +11,7 @@ int main(int argc, char** argv){
         *ptr[i] = i;
         fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
-    for(int i = 339; i < 679; ++i){
+    for(int i = 0; i < 679; ++i){
         free(ptr[i]);
     }
     return 0;
