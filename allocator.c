@@ -166,7 +166,7 @@ void * realloc(void * ptr, size_t size){
 
     long temp = (long)ptr & ~0xfff;
     long* page_start = (long*)temp;
-    int old_length;
+    int old_length = 0;
 
     /*if(*page_start < 0){
         old_length = *page_start & 0x7fffffffffffffff;
