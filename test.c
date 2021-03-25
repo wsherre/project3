@@ -51,5 +51,9 @@ int main(int argc, char** argv){
     for(int i = 4; i < 1000; i++){
         free(ptr[i]);
     }
+
+    for( int i = 0; i < 8; ++i){
+        ptr[i] = malloc(527);
+    }
     return 0;
 }
