@@ -29,7 +29,7 @@ int main(int argc, char** argv){
     fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
     ptr[1] = realloc(ptr[1], 5000);
     fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
-    ptr[2] = realloc(ptr[0], 9000);
+    ptr[2] = realloc(ptr[2], 9000);
     fprintf(stdout, "%p\t%d\n", ptr[2], *ptr[2]);
     
     free(ptr[1]);
