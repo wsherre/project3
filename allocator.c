@@ -117,7 +117,7 @@ void free(void * ptr){
     }else if(*page_start == 20 && *next_page != (long)NULL){
         long* begin = (long*)map_list[i];
         begin++;
-        long* page = begin;
+        long* page = (long*)*begin;
 
         while((int*)page != page_start){        
             page = (long*)*(page + 2);
