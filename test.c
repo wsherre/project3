@@ -42,9 +42,11 @@ int main(int argc, char** argv){
     for(int i = 4; i < 100000; i++){
         ptr[i] = malloc(i);
         *ptr[i] = i;
+        fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
     for(int i = 4; i < 100000; i++){
         ptr[i] = realloc(ptr[i], i + 1);
+        fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
     for(int i = 4; i < 100000; i++){
         free(ptr[i]);
