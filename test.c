@@ -5,12 +5,14 @@
 
 int main(int argc, char** argv){
 
-    int* ptr = NULL;
+    int* ptr[350];
     for(int i = 0; i < 350; ++i){
-        ptr = malloc(8);
-        *ptr = i;
+        ptr[i] = malloc(8);
+        *ptr[i] = i;
         fprintf(stdout, "%p\t%d\n", ptr, *ptr);
-        free(ptr);
+    }
+    for(int i = 0; i < 350; ++i){
+        free(ptr[i]);
     }
     return 0;
 }
