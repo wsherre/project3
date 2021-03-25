@@ -54,6 +54,8 @@ int main(int argc, char** argv){
 
     for( int i = 0; i < 8; ++i){
         ptr[i] = malloc(527);
+        *ptr[i] = i * 1000;
+        fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
     return 0;
 }
