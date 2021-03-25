@@ -23,7 +23,7 @@ int main(int argc, char** argv){
     fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
     ptr[2] = malloc(8000);
     *ptr[2] = 15000;
-    fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
+    fprintf(stdout, "%p\t%d\n", ptr[2], *ptr[2]);
 
     ptr[0] = realloc(ptr[0], 800);
     fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
