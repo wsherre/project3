@@ -31,8 +31,6 @@ void * malloc(size_t size){
     unsigned v = size;
     if(size <= 1024){
         v--;
-        v |= v >> 1;
-        v |= v >> 2;
         v |= v >> 4;
         v |= v >> 8;
         v |= v >> 16;
