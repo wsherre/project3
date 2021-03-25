@@ -18,5 +18,9 @@ int main(int argc, char** argv){
     ptr[0] = malloc(1025);
     ptr[1] = malloc(4093);
     ptr[2] = malloc(8000);
+
+    free(ptr[1]);
+    free(ptr[2]);
+    free(ptr[0]);
     return 0;
 }
