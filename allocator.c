@@ -182,6 +182,7 @@ void* new_map(int v){
 void * big_map(int size){
     long* temp = NULL;
     void * map = mmap ( NULL , size + 16, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
+    temp = map;
 
     *temp = (long)size;
     *temp |= 0x8000000000000000;
