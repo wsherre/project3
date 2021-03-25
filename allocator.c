@@ -99,11 +99,12 @@ void * malloc(size_t size){
 void free(void * ptr){
     long temp = (long)ptr & ~0xfff;
     int* page_start = (int*)temp;
+    long*big_start = (long*)temp;
     long* next_page;
     int length, i, big = 0, size;
-    if(*page_start > 4096){
+    if(*big_start > 4096){
         big = 1;
-        size = *page_start & 0x7fffffffffffffff;
+        size = *big_start & 0x7fffffffffffffff;
     }else{
         next_page = (long*)(page_start + 2);
         length = *(page_start + 1);
