@@ -6,8 +6,10 @@
 #include <math.h>
 void __attribute__((constructor)) lib_init();
 int search(void*);
-void*new_map();
+void*new_map(int size);
+int find_size(long*);
 #define list_size 9
+#define page_size 4096
 
 
 
@@ -57,18 +59,18 @@ void * malloc(size_t size){
         
         int i = log(v)/log(2) - 3;
         if(map_list[i] == NULL){
-            map_list[i] = new_map();
+            map_list[i] = new_map(v);
         }
         int* page_start = map_list[i];
-        long* next_page = (long*)(page_start + 1);
+        long* next_page = (long*)(page_start + 2);
         while(*next_page != (long)NULL){
             long* temp = next_page;
             page_start = (int*)*temp;
             next_page = (long*)(page_start + 1);
         }
-        unsigned int offset = ( unsigned int)*(page_start + 3);
+        unsigned int offset = ( unsigned int)*(page_start + 4);
         if(offset == 0xffff){
-            long * n_map = new_map();
+            long * n_map = new_map(v);
             *next_page = (long)n_map;
             return malloc(size);
         }
@@ -89,7 +91,7 @@ void * malloc(size_t size){
             ptr = (long)(next_ptr + 1) & 0x0fff;
         
         *next_ptr = ptr;
-        *(page_start + 3) = ptr;
+        *(page_start + 4) = ptr;
         *page_start += v;
         return return_ptr;
     }
@@ -97,7 +99,15 @@ void * malloc(size_t size){
 }
 
 void free(void * ptr){
-    
+    long temp = (long)ptr & ~0xfff;
+    int* page_start = (int*)temp;
+    long* next_page = page_start + 2;
+    int length = *(page_start + 1);
+    *page_start -= length;
+    if(*(page_start + 1) == 0 && *next_page == (int)NULL){
+        munmap(page_start, page_size);
+    }
+
 }
 
 void * calloc(size_t num, size_t size){
@@ -110,11 +120,13 @@ void * realloc(void * ptr, size_t size){
     return NULL;
 }
 
-void* new_map(){
+void* new_map(int v){
         int* temp;
-        void * map = mmap ( NULL , 4096 , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
+        void * map = mmap ( NULL , page_size , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
         temp = map;
         *temp = 0;
+        temp++;
+        *temp = v;
         temp++;
         *temp = (int)NULL;
         temp+=2;
