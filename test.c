@@ -55,6 +55,7 @@ int main(int argc, char** argv){
     for( int i = 0; i < 8; ++i){
         ptr[i] = calloc(1, 527);
         *ptr[i] = i * 1000;
+        ptr[i] = realloc(ptr[i], 528);
         fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
     return 0;
