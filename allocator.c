@@ -110,9 +110,9 @@ void free(void * ptr){
     }else if(*page_start == 20 && *next_page != (long)NULL && page_start != map_list[i]){
         long* begin = (long*)map_list[i];
         begin++;
-        long* page = (*begin);
+        long* page = begin;
 
-        while(page != page_start){        
+        while((int*)page != page_start){        
             page = (long*)*(page + 2);
         }
         long* next = page + 2;
@@ -120,7 +120,7 @@ void free(void * ptr){
         munmap(page_start, page_size);
     }else if (*page_start == 20 && *next_page != (long)NULL && page_start == map_list[i])
     {
-        long* next = page_start + 2;
+        long* next = (long*)(page_start + 2);
         map_list[i] = (void*)*(next);
         munmap(page_start, page_size);
     }
