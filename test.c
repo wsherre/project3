@@ -16,12 +16,18 @@ int main(int argc, char** argv){
     }*/
 
     ptr[0] = malloc(1025);
+    fprintf(stdout, "%p\n", ptr[0]);
     ptr[1] = malloc(4093);
+    fprintf(stdout, "%p\n", ptr[1]);
     ptr[2] = malloc(8000);
+    fprintf(stdout, "%p\n", ptr[2]);
 
     ptr[0] = realloc(ptr[0], 800);
+    fprintf(stdout, "%p\n", ptr[0]);
     ptr[1] = realloc(ptr[1], 5000);
+    fprintf(stdout, "%p\n", ptr[1]);
     ptr[2] = realloc(ptr[0], 9000);
+    fprintf(stdout, "%p\n", ptr[2]);
     
     free(ptr[1]);
     free(ptr[2]);
