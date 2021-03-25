@@ -58,5 +58,8 @@ int main(int argc, char** argv){
         ptr[i] = realloc(ptr[i], 528);
         fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
+    for( int i = 0; i < 8; ++i){
+        free(ptr[i]);
+    }
     return 0;
 }
