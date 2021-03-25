@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 #define NUMBUFS 10
-int bufsizes[NUMBUFS] = {2,3,7,14,65,36,700,12,15,64};
+int bufsizes[NUMBUFS] = {2,3,7,14,65,36,700,8999,15,64};
 
 int main()
 {
