@@ -22,7 +22,7 @@ int fd;
 
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
-    int * temp;
+    //int * temp;
     //one for every size except greater than 1k.
     for(int i = 0; i < list_size - 1; ++i){
         map_list[i] = NULL;
@@ -101,7 +101,7 @@ void * malloc(size_t size){
 void free(void * ptr){
     long temp = (long)ptr & ~0xfff;
     int* page_start = (int*)temp;
-    long* next_page = page_start + 2;
+    long* next_page = (long*)(page_start + 2);
     int length = *(page_start + 1);
     *page_start -= length;
     if(*(page_start + 1) == 0 && *next_page == (int)NULL){
