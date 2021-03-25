@@ -85,7 +85,7 @@ void * malloc(size_t size){
         
         *page_start += v;
         int length = *(page_start + 1);
-        if ((4096 - length) < v + 24) 
+        if ((4096 - length) < v + 4) 
             ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
@@ -125,7 +125,7 @@ void* new_map(int v){
         int* temp;
         void * map = mmap ( NULL , page_size , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
         temp = map;
-        *temp = 0;
+        *temp = 20;
         temp++;
         *temp = v;
         temp++;
