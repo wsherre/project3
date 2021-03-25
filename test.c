@@ -19,9 +19,9 @@ int main(int argc, char** argv){
     ptr[1] = malloc(4093);
     ptr[2] = malloc(8000);
 
-    realloc(ptr[0], 800);
-    realloc(ptr[1], 5000);
-    realloc(ptr[0], 9000);
+    ptr[0] = realloc(ptr[0], 800);
+    ptr[1] = realloc(ptr[1], 5000);
+    ptr[2] = realloc(ptr[0], 9000);
     
     free(ptr[1]);
     free(ptr[2]);
