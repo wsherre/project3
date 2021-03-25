@@ -162,7 +162,25 @@ void * calloc(size_t num, size_t size){
 }
 
 void * realloc(void * ptr, size_t size){
-    return NULL;
+    if(ptr == NULL) return malloc(size);
+
+    long temp = (long)ptr & ~0xfff;
+    long* page_start = (long*)temp;
+    int old_length;
+
+    if(page_start < 0){
+        old_length = *page_start & 0x7fffffffffffffff;
+    }else{
+        int* small_page = (int*)temp;
+        old_length = *(small_page + 1);
+    }
+    if(size > old_length){
+        void* newptr = malloc(size);
+        memcpy(newptr, page_start, old_length);
+        free(page_start);
+        return newptr;
+    }
+    return page_start;
 }
 
 void* new_map(int v){
