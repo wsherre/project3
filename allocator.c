@@ -90,7 +90,8 @@ void * malloc(size_t size){
             }
             long* new_block = (long*)big_map(size);
             *(page_start + 1) = (long)new_block;
-            return (void*)*(page_start + 1);
+            new_block +=2;
+            return (void*)new_block;
         }
     }
 }
