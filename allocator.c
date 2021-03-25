@@ -86,6 +86,7 @@ void * malloc(size_t size){
         
         *next_ptr = ptr;
         *(page_start + 3) = ptr;
+        *page_start += v;
         return return_ptr;
     }
     return NULL;
