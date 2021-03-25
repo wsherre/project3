@@ -7,6 +7,7 @@
 
 #define list_size 9
 #define page_size 4096
+#define max_block_size 1024
 
 void __attribute__((constructor)) lib_init();
 int search(void*);
@@ -28,20 +29,20 @@ void * malloc(size_t size){
 
     if(size == 0) return NULL;
     //this simple algorithm rounds up the size to the next highest power of 2
-    unsigned v = size;
-    if(size <= 1024){
-        if (size < 8) v = 7;
-        v--;
-        v |= v >> 1;
-        v |= v >> 2;
-        v |= v >> 4;
-        v |= v >> 8;
-        v |= v >> 16;
-        v++;
+    unsigned map_page_size = size;
+    if(size <= max_block_size){
+        if (size < 8) map_page_size = 7;
+        map_page_size--;
+        map_page_size |= map_page_size >> 1;
+        map_page_size |= map_page_size >> 2;
+        map_page_size |= map_page_size >> 4;
+        map_page_size |= map_page_size >> 8;
+        map_page_size |= map_page_size >> 16;
+        map_page_size++;
         
-        int i = log(v)/log(2) - 3;
+        int i = log(map_page_size)/log(2) - 3;
         if(map_list[i] == NULL){
-            map_list[i] = new_map(v);
+            map_list[i] = new_map(map_page_size);
         }
         int* page_start = map_list[i];
         long* next_page = (long*)(page_start + 2);
@@ -52,28 +53,27 @@ void * malloc(size_t size){
         }
         unsigned int offset = ( unsigned int)*(page_start + 4);
         if(offset == 0xffff){
-            long * n_map = new_map(v);
+            long * n_map = new_map(map_page_size);
             *next_page = (long)n_map;
             return malloc(size);
         }
         long* free_list = NULL;
         free_list = (long*) ((long)page_start | (long)offset);
 
-        void* return_ptr = (void*)free_list;
-
-        int* next_ptr = (int*) (free_list + v/4);
+        int* next_ptr = (int*) free_list ;
+        next_ptr += map_page_size/4;
         int ptr = 0;
         
-        //*page_start += (v + 4);
+        //*page_start += (map_page_size + 4);
         int next_start = (int)next_ptr + 4;
-        if ((page_size  - next_start) < (v + 4)) 
+        if ((page_size  - next_start) < (map_page_size + 4)) 
             ptr = 0xffff;
         else 
             ptr = (long)(next_ptr + 1) & 0x0fff;
         
         *next_ptr = ptr;
         *(page_start + 4) = ptr;
-        return return_ptr;
+        return (void*) free_list;
     }else{
         if(map_list[list_size - 1] == NULL){
             map_list[list_size - 1] = big_map(size);
@@ -183,7 +183,7 @@ void * realloc(void * ptr, size_t size){
     return ptr;
 }
 
-void* new_map(int v){
+void* new_map(int map_page_size){
         int* temp;
         void * map = mmap ( NULL , page_size , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
 
@@ -191,7 +191,7 @@ void* new_map(int v){
         *temp = 20;
 
         temp++; 
-        *temp = v;
+        *temp = map_page_size;
 
         temp++; 
         *temp = (int)NULL;
