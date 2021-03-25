@@ -106,6 +106,7 @@ void free(void * ptr){
         big = 1;
         size = *big_start & 0x7fffffffffffffff;
         next_page = big_start + 1;
+        i = 8;
     }else{
         next_page = (long*)(page_start + 2);
         length = *(page_start + 1);
