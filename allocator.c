@@ -104,11 +104,26 @@ void free(void * ptr){
     int length = *(page_start + 1);
     *page_start -= length;
     int i = log(length)/log(2) - 3;
-    if(*page_start == 0 && *next_page == (int)NULL){
+    if(*page_start == 20 && *next_page == (long)NULL){
         munmap(page_start, page_size);
-        map_list[i] = NULL;
-    }
+        if(page_start == map_list[i]) map_list[i] = NULL;
+    }else if(*page_start == 20 && *next_page != (long)NULL && page_start != map_list[i]){
+        long* begin = (long*)map_list[i];
+        begin++;
+        long* page = (*begin);
 
+        while(page != page_start){        
+            page = (long*)*(page + 2);
+        }
+        long* next = page + 2;
+        *next = (long)next_page;
+        munmap(page_start, page_size);
+    }else if (*page_start == 20 && *next_page != (long)NULL && page_start == map_list[i])
+    {
+        long* next = page_start + 2;
+        map_list[i] = (void*)*(next);
+        munmap(page_start, page_size);
+    }
 }
 
 void * calloc(size_t num, size_t size){
