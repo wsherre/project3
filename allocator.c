@@ -104,7 +104,7 @@ void free(void * ptr){
     long* next_page = (long*)(page_start + 2);
     int length = *(page_start + 1);
     *page_start -= length;
-    if(*(page_start + 1) == 0 && *next_page == (int)NULL){
+    if(*page_start == 0 && *next_page == (int)NULL){
         munmap(page_start, page_size);
     }
 
