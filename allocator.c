@@ -176,7 +176,7 @@ void * realloc(void * ptr, size_t size){
     }
     if(size > old_length){
         void* newptr = malloc(size);
-        memcpy(newptr, page_start, old_length);
+        memcpy(newptr, page_start + 2, old_length);
         free(page_start);
         return newptr;
     }
@@ -184,7 +184,7 @@ void * realloc(void * ptr, size_t size){
         *page_start = (long)size;
         *page_start |= 0x8000000000000000;
     }
-    return page_start;
+    return page_start + 2;
 }
 
 void* new_map(int v){
