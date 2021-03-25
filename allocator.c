@@ -102,8 +102,10 @@ void free(void * ptr){
     int* page_start = (int*)temp;
     long* next_page = (long*)(page_start + 2);
     int length = *(page_start + 1);
-    *page_start -= length;
+    *page_start -= (length + 4);
     int i = log(length)/log(2) - 3;
+
+
     if(*page_start == 20 && *next_page == (long)NULL){
         munmap(page_start, page_size);
         if(page_start == map_list[i]) map_list[i] = NULL;
