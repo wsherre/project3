@@ -83,7 +83,7 @@ void * malloc(size_t size){
         int* next_ptr = free_list + v/4;
         int ptr = 0;
         
-        *page_start += v;
+        *page_start += (v + 4);
         int length = *page_start;
         if ((4096 - length) < v + 4) 
             ptr = 0xffff;
