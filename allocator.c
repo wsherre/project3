@@ -23,7 +23,8 @@ void lib_init(){
     int * temp;
     //one for every size except greater than 1k.
     for(int i = 0; i < list_size - 1; ++i){
-        //multiplier = pow(2, i + 3) / 4;
+        map_list[i] = NULL;
+        /*//multiplier = pow(2, i + 3) / 4;
         map_list[i] = mmap ( NULL , 4096 , PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0) ;
         temp = map_list[i];
         *temp = 0;
@@ -34,7 +35,7 @@ void lib_init(){
         unsigned int t = (unsigned int)(temp + 1) & 0x00000fff;
         //fprintf(stdout, "%d\n", t);
         *temp = t;
-        //fprintf(stdout, "%p\t%d\n", temp, *temp);
+        //fprintf(stdout, "%p\t%d\n", temp, *temp);*/
         
     }
     
@@ -55,6 +56,9 @@ void * malloc(size_t size){
         v++;
         
         int i = log(v)/log(2) - 3;
+        if(map_list[i] == NULL){
+            map_list[i] = new_map();
+        }
         int* page_start = map_list[i];
         long* next_page = (long*)(page_start + 1);
         while(*next_page != (long)NULL){
