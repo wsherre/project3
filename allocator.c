@@ -30,7 +30,10 @@ void * malloc(size_t size){
     //this simple algorithm rounds up the size to the next highest power of 2
     unsigned v = size;
     if(size <= 1024){
+        if (size < 8) v = 7;
         v--;
+        v |= v >> 1;
+        v |= v >> 2;
         v |= v >> 4;
         v |= v >> 8;
         v |= v >> 16;
