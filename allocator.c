@@ -121,7 +121,7 @@ void free(void * ptr){
 
         while((int*)next != page_start){ 
             begin_of_page = next;       
-            next = (long*)*(next++);
+            next = (long*)*(next + 1);
         }
         *(begin_of_page + 1) = *next_page;
         munmap(page_start, page_size);
