@@ -9,7 +9,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < 350; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = i;
-        fprintf(stdout, "%p\t%d\n", ptr, *ptr);
+        fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
     }
     for(int i = 0; i < 350; ++i){
         free(ptr[i]);
