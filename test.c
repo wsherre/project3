@@ -31,6 +31,9 @@ int main(int argc, char** argv){
     fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
     ptr[2] = realloc(ptr[2], 9000);
     fprintf(stdout, "%p\t%d\n", ptr[2], *ptr[2]);
+
+    ptr[0] = realloc(ptr[0], 1026);
+    fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
     
     free(ptr[1]);
     free(ptr[2]);
