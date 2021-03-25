@@ -122,8 +122,7 @@ void free(void * ptr){
         while((int*)page != page_start){        
             page = (long*)*(page + 2);
         }
-        long* next = page + 2;
-        *next = (long)next_page;
+        *page = *next_page;
         munmap(page_start, page_size);
     }
 }
