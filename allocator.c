@@ -19,7 +19,7 @@ int fd;
 
 
 void lib_init(){
-    //fd = open ("/dev/zero", O_RDWR ) ;
+    fd = open ("/dev/zero", O_RDWR ) ;
     for(int i = 0; i < list_size - 1; ++i){
         map_list[i] = NULL;  
     }
