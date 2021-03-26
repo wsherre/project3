@@ -21,7 +21,8 @@ int fd;
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
     for(int i = 0; i < list_size - 1; ++i){
-        map_list[i] = new_map(pow(2, i + 3));  
+        //map_list[i] = new_map(pow(2, i + 3));  
+        map_list[i] = NULL;
     }
 }
 
@@ -41,9 +42,9 @@ void * malloc(size_t size){
         map_page_size++;
         
         int i = log(map_page_size)/log(2) - 3;
-        /*if(map_list[i] == NULL){
+        if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
-        }*/
+        }
         int* page_start = map_list[i];
         long* next_page = (long*)(page_start + 2);
         while(*next_page != (long)NULL){
@@ -99,57 +100,56 @@ void * malloc(size_t size){
 void free(void * ptr){
     if(ptr == NULL) return;
     long temp = (long)ptr & ~0xfff;
-    int* page_start = (int*)temp;
-    long*big_start = (long*)temp;
-    long* next_page;
+    int* int_page_start = (int*)temp;
+    long* long_page_start = (long*)temp;
+    long* original_next_page;
     int length, i, big = 0, size;
-    if(*big_start < 0){
+    if(*long_page_start < 0){
         big = 1;
-        size = *big_start & 0x7fffffffffffffff;
-        next_page = big_start + 1;
+        size = *long_page_start & 0x7fffffffffffffff;
+        original_next_page = long_page_start + 1;
         i = 8;
     }else{
-        next_page = (long*)(page_start + 2);
-        length = *(page_start + 1);
-        *page_start -= (length + 4);
+        original_next_page = (long*)*(long_page_start + 1);
+        length = *(int_page_start + 1);
+        *int_page_start -= (length + 4);
         i = log(length)/log(2) - 3;
         size = page_size;
     }
 
 
-    if( ( *page_start == 20 || big) && *next_page != (long)NULL)
+    if( ( *int_page_start == 20 || big) && *original_next_page != (long)NULL)
     {
         long* begin_of_page = (long*)map_list[i];
-        long* next = (long*)*(begin_of_page + 1);
+        long* begin_of_next_page = (long*)((long)original_next_page & ~0xfff);
 
-        while((int*)next != page_start){ 
-            begin_of_page = next;       
-            next = (long*)*(next + 1);
+        while(begin_of_next_page != long_page_start){ 
+            begin_of_page = begin_of_next_page;       
+            begin_of_next_page = (long*)*begin_of_next_page;
         }
-        *(begin_of_page + 1) = *next_page;
-        munmap(page_start, size);
+        *begin_of_next_page = (long)original_next_page;
+        munmap(long_page_start, size);
     }
-    else if( (*page_start == 20 || big) && *next_page == (long)NULL)
+    else if( (*int_page_start == 20 || big) && *original_next_page == (long)NULL)
     {
-        munmap(page_start, size);
-        if(page_start == map_list[i]){
+        munmap(long_page_start, size);
+        if(int_page_start == map_list[i]){
             map_list[i] = NULL;
         } else{
             long* begin_of_page = (long*)map_list[i];
-            long* next = (long*)*(begin_of_page + 1);
+            long* begin_of_next_page = (long*)((long)original_next_page & ~0xfff);
 
-            while((int*)next != page_start){ 
-                begin_of_page = next;       
-                next = (long*)*(next + 1);
+            while(begin_of_next_page != long_page_start){ 
+                begin_of_page = begin_of_next_page;       
+                begin_of_next_page = (long*)*begin_of_next_page;
             }
             *(begin_of_page + 1) = (int)NULL;
         }
     }
-    else if ( (*page_start == 20 || big) && *next_page != (long)NULL && (void*)page_start == map_list[i])
+    else if ( (*int_page_start == 20 || big) && *original_next_page != (long)NULL && (void*)int_page_start == map_list[i])
     {
-        long* next = (long*)(page_start + 2);
-        map_list[i] = (void*)*(next);
-        munmap(page_start, size);
+        munmap(long_page_start, size);
+        map_list[i] = (void*)*original_next_page;
     }
 }
 
