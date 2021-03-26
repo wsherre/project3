@@ -21,7 +21,7 @@ int fd;
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
     for(int i = 0; i < list_size - 1; ++i){
-        map_list[i] = NULL;  
+        map_list[i] = new_map(pow(2, i + 3));  
     }
 }
 
@@ -41,9 +41,9 @@ void * malloc(size_t size){
         map_page_size++;
         
         int i = log(map_page_size)/log(2) - 3;
-        if(map_list[i] == NULL){
+        /*if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
-        }
+        }*/
         int* page_start = map_list[i];
         long* next_page = (long*)(page_start + 2);
         while(*next_page != (long)NULL){
@@ -117,7 +117,19 @@ void free(void * ptr){
     }
 
 
-    if( (*page_start == 20 || big) && *next_page == (long)NULL)
+    if( ( *page_start == 20 || big) && *next_page != (long)NULL)
+    {
+        long* begin_of_page = (long*)map_list[i];
+        long* next = (long*)*(begin_of_page + 1);
+
+        while((int*)next != page_start){ 
+            begin_of_page = next;       
+            next = (long*)*(next + 1);
+        }
+        *(begin_of_page + 1) = *next_page;
+        munmap(page_start, size);
+    }
+    else if( (*page_start == 20 || big) && *next_page == (long)NULL)
     {
         munmap(page_start, size);
         if(page_start == map_list[i]){
@@ -137,19 +149,6 @@ void free(void * ptr){
     {
         long* next = (long*)(page_start + 2);
         map_list[i] = (void*)*(next);
-        munmap(page_start, size);
-    }
-    
-    else if( ( *page_start == 20 || big) && *next_page != (long)NULL)
-    {
-        long* begin_of_page = (long*)map_list[i];
-        long* next = (long*)*(begin_of_page + 1);
-
-        while((int*)next != page_start){ 
-            begin_of_page = next;       
-            next = (long*)*(next + 1);
-        }
-        *(begin_of_page + 1) = *next_page;
         munmap(page_start, size);
     }
 }
