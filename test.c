@@ -61,7 +61,7 @@ int main(int argc, char** argv){
     for( int i = 0; i < 8; ++i){
         free(ptr[i]);
     }
-    for( int i = 0; i < 10000; ++i){
+    for( int i = 1; i < 10000; ++i){
         ptr[i] = malloc(i);
         *ptr[i] = i;
         fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
