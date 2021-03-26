@@ -127,7 +127,7 @@ void free(void * ptr){
             begin_of_page = begin_of_next_page;       
             begin_of_next_page = (long*)*(begin_of_page + 1);
         }
-        *begin_of_next_page = (long)original_next_page;
+        *(begin_of_page + 1) = (long)original_next_page;
         munmap(long_page_start, size);
     }
     else if( (*int_page_start == 20 || big) && *original_next_page == (long)NULL)
