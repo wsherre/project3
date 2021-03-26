@@ -174,13 +174,12 @@ void * realloc(void * ptr, size_t size){
         int* small_page = (int*)temp;
         old_length = *(small_page + 1);
     }
-    if(size > old_length){
-        void* newptr = malloc(size);
-        memcpy(newptr, ptr, old_length);
-        free(ptr);
-        return newptr;
-    }
-    return ptr;
+    
+    void* newptr = malloc(size);
+    memcpy(newptr, ptr, old_length);
+    free(ptr);
+    return newptr;
+
 }
 
 void* new_map(int map_page_size){
