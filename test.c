@@ -21,7 +21,7 @@ int main(int argc, char** argv){
         free(ptr[i]);
     }
 
-    for( int i = 0; i < 8; ++i){
+    /*for( int i = 0; i < 8; ++i){
         ptr[i] = calloc(1, 527);
         *ptr[i] = i * 1000;
         ptr[i] = realloc(ptr[i], 528);
@@ -37,7 +37,7 @@ int main(int argc, char** argv){
     }
     for( int i = 0; i < 10000; ++i){
         free(ptr[i]);
-    }
+    }*/
 
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
