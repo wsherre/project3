@@ -122,7 +122,7 @@ void free(void * ptr){
     {
         if((void*)long_page_start == map_list[i]){
             munmap(long_page_start, size);
-            map_list[i] = (void*)*original_next_page;
+            map_list[i] = (void*)original_next_page;
             return;
         }
         long* begin_of_page = (long*)map_list[i];
