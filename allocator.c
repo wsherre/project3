@@ -74,6 +74,7 @@ void * malloc(size_t size){
         
         *next_ptr = ptr;
         *(page_start + 4) = ptr;
+        *page_start += map_page_size + 4;
         return (void*) free_list;
     }else{
         if(map_list[list_size - 1] == NULL){
