@@ -36,6 +36,11 @@ int main(int argc, char** argv){
     for(int i = 0; i < 15; ++i){
         printf("%c\n", test[i]);
     }
+    for(i = 4; i < 342; ++i){
+        free(ptr[i]);
+    }
+    free(ptr[700]);
+    free(test);
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
     test = malloc(3000);
