@@ -18,7 +18,7 @@ int main(int argc, char** argv){
 
     ptr[0] = malloc(0);
     int i = 0;
-    for(i = 4; i < 338; ++i){
+    for(i = 4; i < 342; ++i){
         //int num = (rand() % 10000) + 4;
         ptr[i] = malloc(8);
         *ptr[i] = i;
@@ -26,6 +26,7 @@ int main(int argc, char** argv){
 
     }
     ptr[700] = malloc(8);
+    printf("%p\n", ptr[700]);
     //for(int i = 4; i < 600; ++i){
         free(ptr[0]);
     //}
