@@ -176,9 +176,9 @@ void * realloc(void * ptr, size_t size){
     }
     
     void* newptr = malloc(size);
-    //if(size < old_length)
-        //memcpy(newptr, ptr, size);
-    //else    
+    if(size < old_length)
+        memcpy(newptr, ptr, size);
+    else    
         memcpy(newptr, ptr, old_length);
     free(ptr);
     return newptr;
