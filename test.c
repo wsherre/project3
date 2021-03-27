@@ -35,9 +35,13 @@ int main(int argc, char** argv){
     for(int i = 0; i < 15; ++i){
         test[i] = arr[i];
     }
-    fprintf(stdout, "%p\t%d\n", test, *test);
+    for(int i = 0; i < 15; ++i){
+        printf("%c\n", test[i]);
+    }
     test = realloc(test, 7);
-    fprintf(stdout, "%p\t%d\n", test, *test);
+    for(int i = 0; i < 15; ++i){
+        printf("%c\n", test[i]);
+    }
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
     test = malloc(3000);
