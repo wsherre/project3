@@ -8,14 +8,15 @@ int main(int argc, char** argv){
     int* ptr[100000];
     
 
-    ptr[0] = malloc(0);
     for(int i = 4; i < 600; ++i){
-        ptr[0] = realloc(ptr[0], 8);
-        *ptr[0] = i + 1;
-        fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
+        ptr[i] = realloc(ptr[i], 8);
+        *ptr[i] = i + 1;
+        fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
 
     }
-    free(ptr[0]);
+    for(int i = 4; i < 600; ++i){
+        free(ptr[i]);
+    }
 
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
