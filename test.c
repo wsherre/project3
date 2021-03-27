@@ -30,7 +30,9 @@ int main(int argc, char** argv){
     //}
 
     test = malloc(15);
-    *test = arr;
+    for(int i = 0; i < 15; ++i){
+        test[i] = arr[i];
+    }
     fprintf(stdout, "%p\t%d\n", test, *test);
     test = realloc(test, 7);
     fprintf(stdout, "%p\t%d\n", test, *test);
