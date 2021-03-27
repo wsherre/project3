@@ -6,6 +6,7 @@
 int main(int argc, char** argv){
 
     int* ptr[100000];
+    char* test;
     char* arr[15];
     char letter = 'A';
     for(int i = 0; i < 15; ++i){
@@ -27,14 +28,14 @@ int main(int argc, char** argv){
         free(ptr[0]);
     //}
 
-    ptr[1] = malloc(15);
-    *ptr[1] = arr;
-    fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
-    *ptr[1] = realloc(ptr[1], 7);
-    fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
+    test = malloc(15);
+    *test = arr;
+    fprintf(stdout, "%p\t%d\n", test, *test);
+    test = realloc(test, 7);
+    fprintf(stdout, "%p\t%d\n", test, *test);
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
-    ptr[1] = malloc(3000);
+    test = malloc(3000);
     *ptr[1] = 3000;
     ptr[2] = malloc(8000);
     *ptr[2] = 8000;
