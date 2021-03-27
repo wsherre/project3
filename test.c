@@ -7,10 +7,11 @@ int main(int argc, char** argv){
 
     int* ptr[100000];
     char* test;
-    char* arr[15];
+    char* arr;
     char letter = 'A';
+    arr = malloc(15);
     for(int i = 0; i < 15; ++i){
-        *arr[i] = letter;
+        arr[i] = letter;
         letter++;
     }
     
