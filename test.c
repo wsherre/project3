@@ -11,7 +11,7 @@ int main(int argc, char** argv){
     ptr[0] = malloc(0);
     for(int i = 4; i < 600; ++i){
         ptr[0] = realloc(ptr[0], i + 1);
-        ptr[0] = i + 1;
+        *ptr[0] = i + 1;
         fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
 
     }
