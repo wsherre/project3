@@ -6,20 +6,32 @@
 int main(int argc, char** argv){
 
     int* ptr[100000];
+    char* arr[15];
+    char letter = 'A';
+    for(int i = 0; i < 15; ++i){
+        *arr[i] = letter;
+        letter++;
+    }
     
 
     ptr[0] = malloc(0);
-    for(int i = 4; i < 600; ++i){
-        int num = (rand() % 10000) + 4;
-        ptr[0] = realloc(ptr[i], num);
-        *ptr[0] = num;
-        fprintf(stdout, "%p\t%d\n", ptr[0], *ptr[0]);
+    int i = 0;
+    for(i = 4; i < 338; ++i){
+        //int num = (rand() % 10000) + 4;
+        ptr[i] = malloc(8);
+        *ptr[i] = i;
+        fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
 
     }
     //for(int i = 4; i < 600; ++i){
         free(ptr[0]);
     //}
 
+    ptr[1] = malloc(15);
+    *ptr[1] = arr;
+    fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
+    *ptr[1] = realloc(ptr[1], 7);
+    fprintf(stdout, "%p\t%d\n", ptr[1], *ptr[1]);
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
     ptr[1] = malloc(3000);
