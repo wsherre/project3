@@ -18,7 +18,7 @@ int main(int argc, char** argv){
 
     ptr[0] = malloc(0);
     int i = 0;
-    for(i = 4; i < 343; ++i){
+    for(i = 4; i < 342; ++i){
         //int num = (rand() % 10000) + 4;
         ptr[i] = malloc(8);
         *ptr[i] = i;
