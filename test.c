@@ -9,7 +9,7 @@ int main(int argc, char** argv){
     char* test;
     char* arr;
     char letter = 'A';
-    arr = malloc(15);
+    //arr = malloc(15);
     for(int i = 0; i < 15; ++i){
         arr[i] = letter;
         letter++;
@@ -33,7 +33,8 @@ int main(int argc, char** argv){
 
     test = malloc(15);
     for(int i = 0; i < 15; ++i){
-        test[i] = arr[i];
+        test[i] = letter;
+        letter++;
     }
     for(int i = 0; i < 15; ++i){
         printf("%c\n", test[i]);
