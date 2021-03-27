@@ -25,6 +25,7 @@ int main(int argc, char** argv){
         fprintf(stdout, "%p\t%d\n", ptr[i], *ptr[i]);
 
     }
+    ptr[700] = malloc(8);
     //for(int i = 4; i < 600; ++i){
         free(ptr[0]);
     //}
