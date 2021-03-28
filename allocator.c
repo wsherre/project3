@@ -81,7 +81,7 @@ void * malloc(size_t size){
             map_list[list_size - 1] = big_map(size);
             long* page_start =  map_list[list_size - 1];
             map_list[list_size] = page_start;
-            page_start += 2;
+            page_start += 3;
             return page_start;
         }else{
             long* page_start =  map_list[list_size];
@@ -95,6 +95,8 @@ void * malloc(size_t size){
             *(page_start + 1) = (long)new_block;
             map_list[list_size] = new_block;
             new_block += 2;
+            new_block = (long)page_start;
+            new_block++;
             return (void*)new_block;
         }
     }
@@ -112,39 +114,33 @@ void free(void * ptr){
         size = *long_page_start & 0x7fffffffffffffff;
         original_next_page = (long*)*(long_page_start + 1);
         i = 8;
+        if(original_next_page != NULL){
+            long* prev_page = (long*)*(long_page_start + 2);
+            long* prev_page_next_ptr = prev_page + 1;
+            *prev_page_next_ptr = 0;
+            munmap(long_page_start, size);
+        }else{
+            long* prev_page = (long*)*(long_page_start + 2);
+            long* prev_page_next_ptr = prev_page + 1;
+            long* next_page = (long*)*(long_page_start + 1);
+            *prev_page_next_ptr = (long)(next_page);
+            *(next_page + 2) = (long)(prev_page);
+            munmap(long_page_start, size);
+
+        }
     }else{
         original_next_page = (long*)*(long_page_start + 1);
         length = *(int_page_start + 1);
         *int_page_start -= (length + 4);
         i = log(length)/log(2) - 3;
         size = page_size;
-    }
 
-
-    if( ( *int_page_start == 20 || big) && original_next_page != NULL)
-    {
-        if((void*)long_page_start == map_list[i]){
-            munmap(long_page_start, size);
-            map_list[i] = (void*)original_next_page;
-            return;
-        }
-        long* begin_of_page = (long*)map_list[i];
-        long* begin_of_next_page = (long*)*(begin_of_page + 1);
-
-        while(begin_of_next_page != long_page_start){ 
-            begin_of_page = begin_of_next_page;       
-            begin_of_next_page = (long*)*(begin_of_page + 1);
-        }
-        *(begin_of_page + 1) = (long)original_next_page;
-        munmap(long_page_start, size);
-    }
-    else if( (*int_page_start == 20 || big) && original_next_page == NULL)
-    {
-        munmap(long_page_start, size);
-        if(int_page_start == map_list[i]){
-            map_list[i] = NULL;
-            return;
-        } else{
+        if(*int_page_start == 20 && original_next_page != NULL){
+            if((void*)long_page_start == map_list[i]){
+                munmap(long_page_start, size);
+                map_list[i] = (void*)original_next_page;
+                return;
+            }
             long* begin_of_page = (long*)map_list[i];
             long* begin_of_next_page = (long*)*(begin_of_page + 1);
 
@@ -152,9 +148,26 @@ void free(void * ptr){
                 begin_of_page = begin_of_next_page;       
                 begin_of_next_page = (long*)*(begin_of_page + 1);
             }
-            *(begin_of_page + 1) = (int)NULL;
+            *(begin_of_page + 1) = (long)original_next_page;
+            munmap(long_page_start, size);
+            
+        }else if( *int_page_start == 20 && original_next_page == NULL){
+            munmap(long_page_start, size);
+            if(int_page_start == map_list[i]){
+                map_list[i] = NULL;
+                return;
+            } else{
+                long* begin_of_page = (long*)map_list[i];
+                long* begin_of_next_page = (long*)*(begin_of_page + 1);
+
+                while(begin_of_next_page != long_page_start){ 
+                    begin_of_page = begin_of_next_page;       
+                    begin_of_next_page = (long*)*(begin_of_page + 1);
+                }
+                *(begin_of_page + 1) = (int)NULL;
+            }
         }
-    }
+    }  
 }
 
 void * calloc(size_t num, size_t size){
@@ -210,11 +223,13 @@ void* new_map(int map_page_size){
 
 void * big_map(int size){
     long* temp = NULL;
-    void * map = mmap ( NULL , size + 16, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
+    void * map = mmap ( NULL , size + 24, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
     temp = map;
 
     *temp = (long)size;
     *temp |= 0x8000000000000000;
+    temp++;
+    *temp = (int)NULL;
     temp++;
     *temp = (int)NULL;
     return map;
