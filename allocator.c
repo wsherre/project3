@@ -128,12 +128,13 @@ void free(void * ptr){
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
             long* next_page = (long*)*(long_page_start + 1);
-            *prev_page_next_ptr = (long)(next_page);
             *(next_page + 2) = (long)(prev_page);
             munmap(long_page_start, size);
             if(long_page_start == map_list[list_size - 1]){
                 map_list[list_size - 1] = next_page;
+                return;
             }
+            *prev_page_next_ptr = (long)(next_page);
         }
     }else{
         original_next_page = (long*)*(long_page_start + 1);
