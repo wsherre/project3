@@ -9,9 +9,11 @@ int main(int argc, char** argv){
 
     for(int i = 0; i < 10000; ++i){
         ptr[i] = malloc(i);
+        fprintf(stdout, "Mallocing %p\n", ptr[i]);
     }
     for(int i = 9999; i >= 0; ++i){
         free(ptr[i]);
+        fprintf(stdout, "Freeing %p\n", ptr[i]);
     }
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
