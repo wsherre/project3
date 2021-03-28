@@ -5,13 +5,13 @@
 
 int main(int argc, char** argv){
 
-    int* ptr[10000];
+    int* ptr[50000];
 
-    for(int i = 0; i < 10000; ++i){
+    for(int i = 0; i < 50000; ++i){
         ptr[i] = malloc(i);
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], i);
     }
-    for(int i = 1; i < 10000; ++i){
+    for(int i = 1; i < 50000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
