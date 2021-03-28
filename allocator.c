@@ -85,7 +85,7 @@ void * malloc(size_t size){
             return page_start;
         }else{
             long* page_start =  map_list[list_size];
-            long* next_ptr = (long*)*(page_start + 1);
+            //long* next_ptr = (long*)*(page_start + 1);
 
             /*while(next_ptr != NULL){
                 page_start = next_ptr;
