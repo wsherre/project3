@@ -126,7 +126,7 @@ void free(void * ptr){
             map_list[list_size] = prev_page;
         }else{
             long* prev_page = (long*)*(long_page_start + 2);
-            long* prev_page_next_ptr = (long*)*(prev_page + 1);
+            long* prev_page_next_ptr = prev_page + 1;
             long* next_page = (long*)*(long_page_start + 1);
             *prev_page_next_ptr = (long)(next_page);
             *(next_page + 2) = (long)(prev_page);
