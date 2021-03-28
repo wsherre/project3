@@ -11,11 +11,11 @@ int main(int argc, char** argv){
         ptr[i] = malloc(i);
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], i);
     }
-    for(int i = 1; i < 50000; ++i){
+    for(int i = 0; i < 50000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
-    free(ptr[0]);
+    //free(ptr[0]);
     ptr[0] = malloc(1220);
     *ptr[0] = 1220;
     ptr[1] = malloc(3000);
