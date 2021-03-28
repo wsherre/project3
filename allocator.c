@@ -95,7 +95,7 @@ void * malloc(size_t size){
             *(page_start + 1) = (long)new_block;
             map_list[list_size] = new_block;
             new_block += 2;
-            new_block = (long)page_start;
+            *new_block = (long)page_start;
             new_block++;
             return (void*)new_block;
         }
@@ -150,7 +150,7 @@ void free(void * ptr){
             }
             *(begin_of_page + 1) = (long)original_next_page;
             munmap(long_page_start, size);
-            
+
         }else if( *int_page_start == 20 && original_next_page == NULL){
             munmap(long_page_start, size);
             if(int_page_start == map_list[i]){
