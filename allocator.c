@@ -108,7 +108,7 @@ void free(void * ptr){
     int* int_page_start = (int*)temp;
     long* long_page_start = (long*)temp;
     long* original_next_page;
-    int length, i, big = 0, size;
+    int length, i, size;
     if(*long_page_start < 0){
         size = *long_page_start & 0x7fffffffffffffff;
         original_next_page = (long*)*(long_page_start + 1);
