@@ -14,7 +14,7 @@ int search(void*);
 void*new_map(int size);
 void* big_map(int size);
 
-void * map_list[list_size];
+void * map_list[list_size + 1];
 int fd;
 
 
@@ -80,19 +80,21 @@ void * malloc(size_t size){
         if(map_list[list_size - 1] == NULL){
             map_list[list_size - 1] = big_map(size);
             long* page_start =  map_list[list_size - 1];
+            map_list[list_size] = page_start;
             page_start += 2;
             return page_start;
         }else{
-            long* page_start =  map_list[list_size - 1];
+            long* page_start =  map_list[list_size];
             long* next_ptr = (long*)*(page_start + 1);
 
-            while(next_ptr != NULL){
+            /*while(next_ptr != NULL){
                 page_start = next_ptr;
                 next_ptr = (long*)*(next_ptr + 1);
-            }
+            }*/
             long* new_block = (long*)big_map(size);
             *(page_start + 1) = (long)new_block;
-            new_block +=2;
+            map_list[list_size] = new_block;
+            new_block += 2;
             return (void*)new_block;
         }
     }
