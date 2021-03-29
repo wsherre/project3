@@ -78,18 +78,18 @@ void * malloc(size_t size){
         *page_start += map_page_size + 4;
         return (void*) free_list;
     }else{
-        int i = 8;
-        if(map_list[i] == NULL){
-            map_list[i] = big_map(size);
+        const int i = 8;
+        if(map_list[8] == NULL){
+            map_list[8] = big_map(size);
             long* page_start =  map_list[i];
-            im_free_list[i] = page_start;
+            im_free_list[8] = page_start;
             page_start += 3;
             return page_start;
         }else{
-            long* page_start =  im_free_list[i];
+            long* page_start =  im_free_list[8];
             long* new_block = (long*)big_map(size);
             *(page_start + 1) = (long)new_block;
-            im_free_list[i] = new_block;
+            im_free_list[8] = new_block;
             new_block += 2;
             *new_block = (long)page_start;
             new_block++;
