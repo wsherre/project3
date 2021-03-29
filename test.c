@@ -23,8 +23,9 @@ int main(int argc, char** argv){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
+    
     //free(ptr[0]);
-    ptr[0] = malloc(1220);
+    /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;
     ptr[1] = malloc(3000);
     *ptr[1] = 3000;
@@ -41,7 +42,7 @@ int main(int argc, char** argv){
     free(ptr[1]);
     free(ptr[0]);
     free(ptr[3]);
-    free(ptr[2]);
+    free(ptr[2]);*/
     
 
     

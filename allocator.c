@@ -5,10 +5,9 @@
 #include <stdio.h>
 #include <math.h>
 
-#define list_size 18
+#define list_size 10
 #define page_size 4096
 #define max_block_size 1024
-
 
 void __attribute__((constructor)) lib_init();
 int search(void*);
@@ -19,9 +18,10 @@ int return_i(int map_page_size);
 void * map_list[list_size + 1];
 int fd;
 
+
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
-    for(int i = 0; i < list_size; ++i){
+    for(int i = 0; i < list_size - 1; ++i){
         //map_list[i] = new_map(pow(2, i + 3));  
         map_list[i] = NULL;
     }
@@ -33,7 +33,6 @@ void * malloc(size_t size){
     //this simple algorithm rounds up the size to the next highest power of 2
     unsigned map_page_size = size;
     if(size <= max_block_size){
-
         if (size < 8) map_page_size = 7;
         map_page_size--;
         map_page_size |= map_page_size >> 1;
@@ -44,26 +43,22 @@ void * malloc(size_t size){
         map_page_size++;
         
         int i = return_i(map_page_size);
-        
-        //int i = log(map_page_size)/log(2) - 3;
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
-            map_list[i+1] = map_list[i];
         }
-        int* page_start = map_list[i + 1];
+        int* page_start = map_list[i];
         long* next_page = (long*)(page_start + 2);
-        /*while(*next_page != (long)NULL){
+        while(*next_page != (long)NULL){
             long* temp = next_page;
             page_start = (int*)*temp;
             next_page = (long*)(page_start + 2);
-        }*/
+        }
         unsigned int offset = ( unsigned int)*(page_start + 4);
         if(offset == 0xffff){
             long * n_map = new_map(map_page_size);
             *next_page = (long)n_map;
             page_start = (int*) n_map;
             offset = ( unsigned int)*(page_start + 4);
-            map_list[i+1] = n_map;
         }
         long* free_list = NULL;
         free_list = (long*) ((long)page_start | (long)offset);
@@ -84,23 +79,27 @@ void * malloc(size_t size){
         *page_start += map_page_size + 4;
         return (void*) free_list;
     }else{
-        int i = list_size - 2;
-        if(map_list[i] == NULL){
-            map_list[i] = big_map(size);
-            map_list[i+1] = map_list[i];
-            long* page_start =  map_list[i];
-            map_list[list_size] = page_start;
+        if(map_list[list_size - 2] == NULL){
+            map_list[list_size - 2] = big_map(size);
+            long* page_start =  map_list[list_size - 1];
+            map_list[list_size - 1] = page_start;
             page_start += 3;
             return page_start;
         }else{
-            long* page_start =  map_list[i+1];
+            long* page_start =  map_list[list_size - 1];
+            //long* next_ptr = (long*)*(page_start + 1);
+
+            /*while(next_ptr != NULL){
+                page_start = next_ptr;
+                next_ptr = (long*)*(next_ptr + 1);
+            }*/
             long* new_block = (long*)big_map(size);
             *(page_start + 1) = (long)new_block;
-            map_list[i+1] = new_block;
+            map_list[list_size - 1] = new_block;
             new_block += 2;
             *new_block = (long)page_start;
             new_block++;
-            return new_block;
+            return (void*)new_block;
         }
     }
 }
@@ -115,36 +114,35 @@ void free(void * ptr){
     if(*long_page_start < 0){
         size = *long_page_start & 0x7fffffffffffffff;
         original_next_page = (long*)*(long_page_start + 1);
-        i = return_i(size);
+        i = 8;
         if(original_next_page == NULL){
             if(long_page_start == map_list[i]){
                 munmap(long_page_start, size);
                 map_list[i] = NULL;
-                map_list[i+1] = NULL;
+                map_list[list_size] = NULL;
                 return;
             }
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
             *prev_page_next_ptr = 0;
-            map_list[i + 1] = prev_page;
+            map_list[list_size] = prev_page;
         }else{
-            long* next_page = (long*)*(long_page_start + 1);
-            if(long_page_start == map_list[i]){
-                map_list[i] = next_page;
-                return;
-            }
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
-            next_page = (long*)*(long_page_start + 1);
+            long* next_page = (long*)*(long_page_start + 1);
             *(next_page + 2) = (long)(prev_page);
-            *prev_page_next_ptr = (long)(next_page);
             munmap(long_page_start, size);
+            if(long_page_start == map_list[list_size - 1]){
+                map_list[list_size - 1] = next_page;
+                return;
+            }
+            *prev_page_next_ptr = (long)(next_page);
         }
     }else{
         original_next_page = (long*)*(long_page_start + 1);
         length = *(int_page_start + 1);
         *int_page_start -= (length + 4);
-        i = return_i(length);
+        i = log(length)/log(2) - 3;
         size = page_size;
 
         if(*int_page_start == 20 && original_next_page != NULL){
@@ -177,7 +175,6 @@ void free(void * ptr){
                     begin_of_next_page = (long*)*(begin_of_page + 1);
                 }
                 *(begin_of_page + 1) = (int)NULL;
-                map_list[i + 1]= begin_of_page;
             }
         }
     }  
@@ -239,7 +236,7 @@ void * big_map(int size){
     void * map = mmap ( NULL , size + 24, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
     temp = map;
 
-    *temp = (long)(size);
+    *temp = (long)size;
     *temp |= 0x8000000000000000;
     temp++;
     *temp = (int)NULL;
@@ -248,16 +245,17 @@ void * big_map(int size){
     return map;
 }
 
+
 int return_i(int map_page_size){
     int i = 0;
     if(map_page_size == 8) i = 0;
-    else if(map_page_size == 16) i = 2;
-    else if(map_page_size == 32) i = 4;
-    else if(map_page_size == 64) i = 6;
-    else if(map_page_size == 128) i = 8;
-    else if(map_page_size == 256) i = 10;
-    else if(map_page_size == 512) i = 12;
-    else if(map_page_size == 1024) i = 14;
-    else i = 16;
+    else if(map_page_size == 16) i = 1;
+    else if(map_page_size == 32) i = 2;
+    else if(map_page_size == 64) i = 3;
+    else if(map_page_size == 128) i = 4;
+    else if(map_page_size == 256) i = 5;
+    else if(map_page_size == 512) i = 6;
+    else if(map_page_size == 1024) i = 7;
+    else i = 8;
     return i;
 }
