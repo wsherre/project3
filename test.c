@@ -11,7 +11,7 @@ int main(int argc, char** argv){
     for(int i = 1; i < 1000000; ++i){
         ptr[i] = malloc(8);
         memset(ptr[i], 0, 8);
-        fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
+        fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
     /*for(int i = 1; i < 50000; ++i){
         ptr[i] = realloc(ptr[i], i + 100);
