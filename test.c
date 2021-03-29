@@ -15,11 +15,11 @@ int main(int argc, char** argv){
         memset(ptr[i], 5, 8);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
-    /*for(int i = 1; i < k; ++i){
+    for(int i = 1; i < k; ++i){
         ptr[i] = realloc(ptr[i], i + 100);
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
-    }*/
+    }
     for(int i = 1; i < k; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
