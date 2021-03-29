@@ -34,7 +34,7 @@ void * malloc(size_t size){
     if(size == 0) return NULL;
     //this simple algorithm rounds up the size to the next highest power of 2
     unsigned map_page_size = size;
-    if(size <= 1024){
+    if(size <= max_block_size){
         if (size < 8) map_page_size = 7;
         map_page_size--;
         map_page_size |= map_page_size >> 1;
