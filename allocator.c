@@ -51,11 +51,6 @@ void * malloc(size_t size){
         }
         int* page_start = im_free_list[i];
         long* next_page = (long*)(page_start + 2);
-        /*while(*next_page != (long)NULL){
-            long* temp = next_page;
-            page_start = (int*)*temp;
-            next_page = (long*)(page_start + 2);
-        }*/
         unsigned int offset = ( unsigned int)*(page_start + 4);
         if(offset == 0xffff){
             long * n_map = new_map(map_page_size);
@@ -92,12 +87,6 @@ void * malloc(size_t size){
             return page_start;
         }else{
             long* page_start =  im_free_list[i];
-            //long* next_ptr = (long*)*(page_start + 1);
-
-            /*while(next_ptr != NULL){
-                page_start = next_ptr;
-                next_ptr = (long*)*(next_ptr + 1);
-            }*/
             long* new_block = (long*)big_map(size);
             *(page_start + 1) = (long)new_block;
             im_free_list[i] = new_block;
