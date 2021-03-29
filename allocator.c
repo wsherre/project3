@@ -35,6 +35,7 @@ void * malloc(size_t size){
     unsigned map_page_size = size;
     if(size <= max_block_size){
         s = E;
+        int p = s;
 
         if (size < 8) map_page_size = 7;
         map_page_size--;
