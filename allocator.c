@@ -17,7 +17,6 @@ void* big_map(int size);
 
 void * map_list[list_size + 1];
 int fd;
-double log_2 = 0;
 
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
@@ -25,7 +24,6 @@ void lib_init(){
         //map_list[i] = new_map(pow(2, i + 3));  
         map_list[i] = NULL;
     }
-    log_2 = log(2);
 }
 
 void * malloc(size_t size){
@@ -44,7 +42,9 @@ void * malloc(size_t size){
         map_page_size |= map_page_size >> 16;
         map_page_size++;
         
-        int i = log(map_page_size)/log_2 - 3;
+        int i = return_i(map_page_size);
+        
+        //int i = log(map_page_size)/log(2) - 3;
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
         }
@@ -144,7 +144,7 @@ void free(void * ptr){
         original_next_page = (long*)*(long_page_start + 1);
         length = *(int_page_start + 1);
         *int_page_start -= (length + 4);
-        i = log(length)/log_2 - 3;
+        i = return_i(length);
         size = page_size;
 
         if(*int_page_start == 20 && original_next_page != NULL){
@@ -247,3 +247,14 @@ void * big_map(int size){
     return map;
 }
 
+int return_i(int map_page_size){
+    int i = 0;
+    if(map_page_size == 16) i = 1;
+    else if(map_page_size == 32) i = 2;
+    else if(map_page_size == 64) i = 3;
+    else if(map_page_size == 128) i = 4;
+    else if(map_page_size == 256) i = 5;
+    else if(map_page_size == 512) i = 6;
+    else if(map_page_size == 1024) i = 7;
+    return i;
+}
