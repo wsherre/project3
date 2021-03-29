@@ -42,7 +42,7 @@ void * malloc(size_t size){
         map_page_size |= map_page_size >> 16;
         map_page_size++;
         
-        int i = 0;
+        //int i = 0;
         /*if(map_page_size == 16) i = 1;
         else if(map_page_size == 32) i = 2;
         else if(map_page_size == 64) i = 3;
