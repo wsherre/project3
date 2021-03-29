@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define list_size 9
+#define list_size 8
 #define page_size 4096
 #define max_block_size 1024
 
@@ -15,15 +15,17 @@ void*new_map(int size);
 void* big_map(int size);
 int return_i(int map_page_size);
 
-void * map_list[list_size + 1];
+void * map_list[list_size];
+void * im_free_list[list_size];
 int fd;
 
 
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
-    for(int i = 0; i < list_size - 1; ++i){
+    for(int i = 0; i < list_size; ++i){
         //map_list[i] = new_map(pow(2, i + 3));  
         map_list[i] = NULL;
+        im_free_list[i] = NULL;
     }
 }
 
@@ -79,14 +81,15 @@ void * malloc(size_t size){
         *page_start += map_page_size + 4;
         return (void*) free_list;
     }else{
-        if(map_list[list_size - 1] == NULL){
-            map_list[list_size - 1] = big_map(size);
-            long* page_start =  map_list[list_size - 1];
-            map_list[list_size] = page_start;
+        int i = 8;
+        if(map_list[i] == NULL){
+            map_list[i] = big_map(size);
+            long* page_start =  map_list[i];
+            im_free_list[i] = page_start;
             page_start += 3;
             return page_start;
         }else{
-            long* page_start =  map_list[list_size];
+            long* page_start =  im_free_list[i];
             //long* next_ptr = (long*)*(page_start + 1);
 
             /*while(next_ptr != NULL){
@@ -95,7 +98,7 @@ void * malloc(size_t size){
             }*/
             long* new_block = (long*)big_map(size);
             *(page_start + 1) = (long)new_block;
-            map_list[list_size] = new_block;
+            im_free_list[i] = new_block;
             new_block += 2;
             *new_block = (long)page_start;
             new_block++;
@@ -119,21 +122,21 @@ void free(void * ptr){
             if(long_page_start == map_list[i]){
                 munmap(long_page_start, size);
                 map_list[i] = NULL;
-                map_list[list_size] = NULL;
+                im_free_list[i] = NULL;
                 return;
             }
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
             *prev_page_next_ptr = 0;
-            map_list[list_size] = prev_page;
+            im_free_list[i] = prev_page;
         }else{
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
             long* next_page = (long*)*(long_page_start + 1);
             *(next_page + 2) = (long)(prev_page);
             munmap(long_page_start, size);
-            if(long_page_start == map_list[list_size - 1]){
-                map_list[list_size - 1] = next_page;
+            if(long_page_start == map_list[i]){
+                map_list[i] = next_page;
                 return;
             }
             *prev_page_next_ptr = (long)(next_page);
