@@ -47,8 +47,9 @@ void * malloc(size_t size){
         int i = return_i(map_page_size);
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
+            im_free_list[i] = map_list[i];
         }
-        int* page_start = map_list[i];
+        int* page_start = im_free_list[i];
         long* next_page = (long*)(page_start + 2);
         while(*next_page != (long)NULL){
             long* temp = next_page;
