@@ -129,6 +129,7 @@ void free(void * ptr){
             long* prev_page_next_ptr = prev_page + 1;
             *prev_page_next_ptr = 0;
             im_free_list[i] = prev_page;
+            //original next page != NULL
         }else{
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
