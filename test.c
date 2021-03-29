@@ -10,7 +10,7 @@ int main(int argc, char** argv){
     //int k = 50000;
 
     
-    for(int i = 1; i < 342; ++i){
+    for(int i = 1; i < 350; ++i){
         ptr[i] = malloc(8);
         memset(ptr[i], 5, 8);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
