@@ -7,7 +7,7 @@
 int main(int argc, char** argv){
 
     int* ptr[1000000];
-    int k = 10000;
+    int k = 50000;
 
     for(int i = 1; i < k; ++i){
         ptr[i] = malloc(i);
