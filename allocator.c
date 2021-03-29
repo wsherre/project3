@@ -14,6 +14,7 @@ void __attribute__((constructor)) lib_init();
 int search(void*);
 void*new_map(int size);
 void* big_map(int size);
+int return_i(int map_page_size);
 
 void * map_list[list_size + 1];
 int fd;
