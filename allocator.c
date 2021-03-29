@@ -18,8 +18,6 @@ void* big_map(int size);
 void * map_list[list_size + 1];
 int fd;
 
-enum maps{E = 0, S = 1, T = 2, SF = 3, O = 4, TFS = 5, FT = 6, OTF = 7} s;
-
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
     for(int i = 0; i < list_size - 1; ++i){
@@ -34,8 +32,6 @@ void * malloc(size_t size){
     //this simple algorithm rounds up the size to the next highest power of 2
     unsigned map_page_size = size;
     if(size <= max_block_size){
-        s = E;
-        int p = s;
 
         if (size < 8) map_page_size = 7;
         map_page_size--;
