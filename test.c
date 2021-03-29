@@ -7,7 +7,7 @@ int main(int argc, char** argv){
 
     int* ptr[50000];
 
-    for(int i = 0; i < 50000; ++i){
+    for(int i = 1; i < 50000; ++i){
         ptr[i] = malloc(i);
         *ptr[i] = i;
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
@@ -16,7 +16,7 @@ int main(int argc, char** argv){
         ptr[i] = realloc(ptr[i], i + 100);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
-    for(int i = 50000; i >= 0; --i){
+    for(int i = 50000; i > 0; --i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
