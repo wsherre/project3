@@ -18,7 +18,7 @@ int main(int argc, char** argv){
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
     }*/
-    for(int i = 1; i > 50000; ++i){
+    for(int i = 1; i < 50000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
