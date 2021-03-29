@@ -133,7 +133,7 @@ void free(void * ptr){
             }
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
-            long* next_page = (long*)*(long_page_start + 1);
+            next_page = (long*)*(long_page_start + 1);
             *(next_page + 2) = (long)(prev_page);
             *prev_page_next_ptr = (long)(next_page);
             munmap(long_page_start, size);
