@@ -9,8 +9,6 @@ int main(int argc, char** argv){
     int* ptr[1000000];
     int k = 50000;
 
-    ptr[0] = malloc(16);
-    ptr[0] = realloc(ptr[0], 1117);
     for(int i = 1; i < k; ++i){
         ptr[i] = malloc(8);
         //memset(ptr[i], 5, 8);
