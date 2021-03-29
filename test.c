@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/mman.h>
+#include <string.h>
 #include <fcntl.h>
 
 int main(int argc, char** argv){
