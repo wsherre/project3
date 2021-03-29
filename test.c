@@ -7,12 +7,12 @@ int main(int argc, char** argv){
 
     int* ptr[50000];
 
-    for(int i = 0; i < 500; ++i){
+    for(int i = 0; i < 10000; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = i;
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
     }
-    for(int i = 0; i < 500; ++i){
+    for(int i = 0; i < 10000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
