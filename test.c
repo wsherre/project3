@@ -9,6 +9,7 @@ int main(int argc, char** argv){
     int* ptr[1000000];
     int k = 10000;
 
+    
     for(int i = 1; i < k; ++i){
         ptr[i] = malloc(8);
         memset(ptr[i], 5, 8);
@@ -23,7 +24,7 @@ int main(int argc, char** argv){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
-    
+
     //free(ptr[0]);
     /*ptr[0] = malloc(1220);
     *ptr[0] = 1220;

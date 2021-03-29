@@ -119,21 +119,21 @@ void free(void * ptr){
             if(long_page_start == map_list[i]){
                 munmap(long_page_start, size);
                 map_list[i] = NULL;
-                map_list[list_size] = NULL;
+                map_list[9] = NULL;
                 return;
             }
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
             *prev_page_next_ptr = 0;
-            map_list[list_size] = prev_page;
+            map_list[9] = prev_page;
         }else{
             long* prev_page = (long*)*(long_page_start + 2);
             long* prev_page_next_ptr = prev_page + 1;
             long* next_page = (long*)*(long_page_start + 1);
             *(next_page + 2) = (long)(prev_page);
             munmap(long_page_start, size);
-            if(long_page_start == map_list[list_size - 1]){
-                map_list[list_size - 1] = next_page;
+            if(long_page_start == map_list[i]){
+                map_list[i] = next_page;
                 return;
             }
             *prev_page_next_ptr = (long)(next_page);
