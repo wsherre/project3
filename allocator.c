@@ -236,7 +236,7 @@ void * big_map(int size){
     void * map = mmap ( NULL , size + 24, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
     temp = map;
 
-    *temp = (long)(size + 24);
+    *temp = (long)(size);
     *temp |= 0x8000000000000000;
     temp++;
     *temp = (int)NULL;
