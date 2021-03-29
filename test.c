@@ -12,6 +12,10 @@ int main(int argc, char** argv){
         *ptr[i] = i;
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
     }
+    for(int i = 1; i < 10000; ++i){
+        ptr[i] = realloc(ptr[i], i + 100);
+        fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
+    }
     for(int i = 0; i < 10000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
