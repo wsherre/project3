@@ -63,7 +63,7 @@ void * malloc(size_t size){
         free_list = (long*) ((long)page_start | (long)offset);
 
         char* next_ptr = (char*) free_list;
-        next_ptr += map_page_size/2;
+        next_ptr += map_page_size;
         int ptr = 0;
         
         //*page_start += (map_page_size + 4);
