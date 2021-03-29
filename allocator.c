@@ -18,7 +18,7 @@ void* big_map(int size);
 void * map_list[list_size + 1];
 int fd;
 
-enum maps{E, S, T, SF, O, TFS, FT, OTF} s;
+enum maps{E = 0, S = 1, T = 2, SF = 3, O = 4, TFS = 5, FT = 6, OTF = 7} s;
 
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
