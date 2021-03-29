@@ -5,19 +5,19 @@
 
 int main(int argc, char** argv){
 
-    int* ptr[50000];
+    int* ptr[1000000];
 
-    for(int i = 1; i < 50000; ++i){
-        ptr[i] = malloc(i);
-        *ptr[i] = i;
+    for(int i = 1; i < 1000000; ++i){
+        ptr[i] = malloc(8);
+        memset(ptr[i], i, 8);
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
     }
-    for(int i = 1; i < 50000; ++i){
+    /*for(int i = 1; i < 50000; ++i){
         ptr[i] = realloc(ptr[i], i + 100);
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
-    }
-    for(int i = 49999; i > 0; --i){
+    }*/
+    for(int i = 1; i > 1000000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
