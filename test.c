@@ -8,9 +8,9 @@ int main(int argc, char** argv){
 
     int* ptr[1000000];
 
-    for(int i = 1; i < 500000; ++i){
+    for(int i = 1; i < 150000; ++i){
         ptr[i] = malloc(i);
-        memset(ptr[i], i, 8);
+        memset(ptr[i], i, i);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
     /*for(int i = 1; i < 500000; ++i){
@@ -18,7 +18,7 @@ int main(int argc, char** argv){
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
     }*/
-    for(int i = 1; i < 500000; ++i){
+    for(int i = 1; i < 150000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
