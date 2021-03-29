@@ -9,6 +9,7 @@
 #define page_size 4096
 #define max_block_size 1024
 
+
 void __attribute__((constructor)) lib_init();
 int search(void*);
 void*new_map(int size);
@@ -17,6 +18,7 @@ void* big_map(int size);
 void * map_list[list_size + 1];
 int fd;
 
+enum maps{E, S, T, SF, O, TFS, FT, OTF} s;
 
 void lib_init(){
     fd = open ("/dev/zero", O_RDWR ) ;
@@ -32,6 +34,8 @@ void * malloc(size_t size){
     //this simple algorithm rounds up the size to the next highest power of 2
     unsigned map_page_size = size;
     if(size <= max_block_size){
+        s = E;
+
         if (size < 8) map_page_size = 7;
         map_page_size--;
         map_page_size |= map_page_size >> 1;
