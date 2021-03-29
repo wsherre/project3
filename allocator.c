@@ -46,7 +46,15 @@ void * malloc(size_t size){
         map_page_size |= map_page_size >> 16;
         map_page_size++;
         
-        int i = log(map_page_size)/log(2) - 3;
+        int i = 0;
+        if(map_page_size == 16) i = 1;
+        else if(map_page_size == 32) i = 2;
+        else if(map_page_size == 64) i = 3;
+        else if(map_page_size == 128) i = 4;
+        else if(map_page_size == 256) i = 5;
+        else if(map_page_size == 512) i = 6;
+        else if(map_page_size == 1024) i = 7;
+        //int i = log(map_page_size)/log(2) - 3;
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
         }
