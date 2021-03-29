@@ -8,17 +8,17 @@ int main(int argc, char** argv){
 
     int* ptr[1000000];
 
-    for(int i = 1; i < 150000; ++i){
+    for(int i = 1; i < 50000; ++i){
         ptr[i] = malloc(i);
         memset(ptr[i], 5, i);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
-    /*for(int i = 1; i < 500000; ++i){
+    for(int i = 1; i < 50000; ++i){
         ptr[i] = realloc(ptr[i], i + 100);
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
-    }*/
-    for(int i = 1; i < 150000; ++i){
+    }
+    for(int i = 1; i < 50000; ++i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
