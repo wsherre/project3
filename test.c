@@ -8,7 +8,7 @@ int main(int argc, char** argv){
     int* ptr[50000];
 
     for(int i = 0; i < 50000; ++i){
-        ptr[i] = malloc(i);
+        ptr[i] = malloc(8);
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], i);
     }
     for(int i = 0; i < 50000; ++i){
