@@ -7,16 +7,16 @@
 int main(int argc, char** argv){
 
     int* ptr[1000000];
-    int k = 50000;
+    int k = 10000;
 
     for(int i = 1; i < k; ++i){
-        ptr[i] = malloc(i);
-        memset(ptr[i], 5, i);
+        ptr[i] = malloc(8);
+        memset(ptr[i], 5, 8);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
     for(int i = 1; i < k; ++i){
         ptr[i] = realloc(ptr[i], i + 100);
-        *ptr[i] = i;
+        //*ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
     }
     for(int i = 1; i < k; ++i){
