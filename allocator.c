@@ -57,25 +57,25 @@ void * malloc(size_t size){
             long * n_map = new_map(map_page_size);
             *next_page = (long)n_map;
             page_start = (int*) n_map;
-            offset = (unsigned int)*(page_start + 4);
+            offset = ( unsigned int)*(page_start + 4);
         }
         long* free_list = NULL;
         free_list = (long*) ((long)page_start | (long)offset);
 
-        char* next_ptr = (char*) free_list;
-        next_ptr += map_page_size;
+        int* next_ptr = (int*) free_list;
+        next_ptr += map_page_size/4;
         int ptr = 0;
         
         //*page_start += (map_page_size + 4);
-        int next_start = (int)(next_ptr + 2) & 0x0fff;
-        if ((page_size  - next_start) < (map_page_size + 2)) 
+        int next_start = (int)(next_ptr + 1) & 0xfff;
+        if ((page_size  - next_start) < (map_page_size + 4)) 
             ptr = 0xffff;
         else 
-            ptr = (long)(next_ptr + 2) & 0x0fff;
+            ptr = (long)(next_ptr + 1) & 0x0fff;
         
         *next_ptr = ptr;
         *(page_start + 4) = ptr;
-        *page_start += map_page_size + 2;
+        *page_start += map_page_size + 4;
         return (void*) free_list;
     }else{
         if(map_list[list_size - 1] == NULL){
