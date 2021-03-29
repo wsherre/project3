@@ -57,8 +57,8 @@ void * malloc(size_t size){
             long * n_map = new_map(map_page_size);
             *next_page = (long)n_map;
             page_start = (int*) n_map;
+            offset = (unsigned int)*(page_start + 4);
         }
-        offset = (unsigned int)*(page_start + 4);
         long* free_list = NULL;
         free_list = (long*) ((long)page_start | (long)offset);
 
