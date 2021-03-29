@@ -16,7 +16,7 @@ int main(int argc, char** argv){
         ptr[i] = realloc(ptr[i], i + 100);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
-    for(int i = 50000; i > 0; --i){
+    for(int i = 49999; i > 0; --i){
         free(ptr[i]);
         fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
     }
