@@ -142,7 +142,7 @@ void free(void * ptr){
         original_next_page = (long*)*(long_page_start + 1);
         length = *(int_page_start + 1);
         *int_page_start -= (length + 4);
-        i = log(length)/log(2) - 3;
+        i = return_i(length);
         size = page_size;
 
         if(*int_page_start == 20 && original_next_page != NULL){
