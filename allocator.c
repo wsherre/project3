@@ -31,6 +31,7 @@ void __attribute__((constructor)) lib_init();
 int search(void*);
 void*new_map(int size);
 void* big_map(int size);
+void* get_free_block(void* head, int map_page_size);
 int return_i(int map_page_size);
 
 void * map_list[list_size];
@@ -75,25 +76,13 @@ void * malloc(size_t size){
         short offset = *(free_list);
 
         //if offset is 0 then our map is full
-        while(offset == 0){
-            //if there isnt a new map, make one
-            if(next_page == NULL){
-                map_list[i] = new_map(map_page_size);
-                //reset all the function variables
-                next_page = map_list[i];
-                *next_page = (long)long_page_start;
-                short_page_start = map_list[i];
-                long_page_start = map_list[i];
-                free_list = short_page_start + 5;
-                offset = *(free_list);
-            }else{
-                //set the function variables for the next map
-                short_page_start = (short*) next_page;
-                long_page_start = next_page;
-                next_page = (long*)*long_page_start;
-                free_list = short_page_start + 5;
-                offset = *(free_list);
-            }
+        if(offset == 0){ 
+            long_page_start = get_free_block(map_list[i], map_page_size);
+            short_page_start = (short*)long_page_start;
+            short_page_start = (short*) next_page;
+            next_page = (long*)*long_page_start;
+            free_list = short_page_start + 5;
+            offset = *(free_list);
         }
         //make the return pointer and update the free list
         short * return_ptr = (short*)((long) short_page_start | (long)offset);
@@ -105,7 +94,23 @@ void * malloc(size_t size){
         return big_map(size);
     return NULL;
 }
+void* get_free_block(void* head, int map_page_size){
+    short* start_of_page = head;
+    long* next_page = head;
+    next_page = (long*)*next_page;
+    short* free_list = (start_of_page + 5);
 
+    if(*free_list != 0){
+        return head;
+    }else{
+        if(next_page == NULL){
+            long* newptr = new_map(map_page_size);
+            *next_page = (long)newptr;
+            return newptr;
+        }
+    }
+    return get_free_block(next_page, map_page_size);
+}
 void free(void * ptr){
     if(ptr == NULL) return;
 
