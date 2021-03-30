@@ -3,11 +3,14 @@
 #include <sys/mman.h>
 #include <string.h>
 #include <fcntl.h>
+#include <time.h>
 
 int main(int argc, char** argv){
 
     int* ptr[1000000];
     int k = 50000;
+    time_t t;
+    srand((unsigned) time(&t));
 
 
     /*for(int i = 1; i < k; ++i){
