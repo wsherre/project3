@@ -115,7 +115,6 @@ void free(void * ptr){
 
     if(*long_page_start < 0){
         map_page_size = *long_page_start & 0x7fffffffffffffff;
-        map_page_size = *long_page_start;
         munmap(ptr, map_page_size);
         return;
     }else{
