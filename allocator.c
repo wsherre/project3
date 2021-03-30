@@ -177,7 +177,7 @@ void* new_map(int map_page_size){
         temp++;
         *temp = (short)(temp + 1) & 0x0fff;
 
-        while( page_size - ((long) (temp + map_page_size/2 + 1)) > map_page_size + 2){
+        while( page_size - ((long) (temp + map_page_size/2 + 1) & 0xfff) > map_page_size + 2){
             temp += map_page_size/2;
             *temp = (short)(temp + 1) & 0x0fff;
             temp++;
