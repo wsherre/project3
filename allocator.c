@@ -57,10 +57,9 @@ void * malloc(size_t size){
 
         while(offset == 0){
             if(next_page == NULL){
-                page_start = new_map(map_page_size);
-                next_page = (long*)page_start;
-                next_page = (long*)*next_page;
-                free_list = page_start + 5;
+                int* new_start = new_map(map_page_size);
+                *next_page = (long) (*((long*)new_start));
+                free_list = new_start + 5;
                 offset = *(free_list);
             }else{
                 page_start = (short*)next_page;
