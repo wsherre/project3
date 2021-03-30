@@ -106,24 +106,34 @@ void * malloc(size_t size){
 
 void free(void * ptr){
     if(ptr == NULL) return;
+
+    //get beginning
     long temp = (long)ptr & ~0xfff;
     short* short_page_start = (short*)temp;
     long* long_page_start = ptr;
     long_page_start--;
     int map_page_size;
 
-
+    //if first bit is a 1 (big)
     if(*long_page_start < 0){
+        //unmap the big
         map_page_size = *long_page_start & 0x7fffffffffffffff;
         munmap(ptr, map_page_size);
         return;
     }else{
+        //get the size of the page
         map_page_size = *(short_page_start + 4);
+        //get the free_list of the page
         short* free_list = short_page_start + 5;
+        //get offset
         short offset = *free_list;
+        //get pointer
         short* freed_ptr = (short*)ptr;
+        //set the pointer to its personal pointer in the map
         freed_ptr += map_page_size/2;
+        //set it equal to the offset which is what the free_list is pointing to
         *freed_ptr = offset;
+        //set the free_list = to the pointer
         *free_list = (short)((short)ptr & 0xfff);
     }  
 }
