@@ -60,7 +60,7 @@ void * malloc(size_t size){
 }
 
 void * get_free_map(int page_length, int i){
-    int* start = im_free_list[i];
+   /* int* start = im_free_list[i];
     if(start = NULL){
         start = new_map(4096);
         *(start + 2) = (long)map_list[i];
@@ -69,7 +69,8 @@ void * get_free_map(int page_length, int i){
     im_free_list[i] = (long*)*(start + 2);
     *(start + 2) = 0;
     start += 5;
-    return start;
+    return start;*/
+    return NULL;
 }
 
 void free(void * ptr){
@@ -173,7 +174,7 @@ void* new_map(int map_page_size){
 
         //0x...00a = 0x...00c
         temp++;
-        *temp = temp + 1;
+        *temp = (short)(temp + 1);
 
         while( page_size - ((long) (temp + map_page_size/2 + 1)) > map_page_size + 2){
             temp += map_page_size/2;
