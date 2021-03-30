@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define list_size 9
+#define list_size 8
 #define page_size 4096
 #define max_block_size 1024
 
@@ -77,25 +77,8 @@ void * malloc(size_t size){
         *(page_start + 4) = ptr;
         *page_start += map_page_size + 4;
         return (void*) free_list;
-    }else{
-        int i = 8;
-        if(map_list[i] == NULL){
-            map_list[i] = big_map(size);
-            long* page_start =  map_list[i];
-            im_free_list[i] = page_start;
-            page_start += 3;
-            return page_start;
-        }else{
-            long* page_start =  im_free_list[i];
-            long* new_block = (long*)big_map(size);
-            *(page_start + 1) = (long)new_block;
-            im_free_list[i] = new_block;
-            new_block += 2;
-            *new_block = (long)page_start;
-            new_block++;
-            return (void*)new_block;
-        }
-    }
+    }else
+        return big_map(size);
 }
 
 void free(void * ptr){
@@ -106,33 +89,9 @@ void free(void * ptr){
     long* original_next_page;
     int length, i, size;
     if(*long_page_start < 0){
-        size = *long_page_start & 0x7fffffffffffffff;
-        original_next_page = (long*)*(long_page_start + 1);
-        i = 8;
-        if(original_next_page == NULL){
-            if(long_page_start == map_list[i]){
-                munmap(long_page_start, size);
-                map_list[i] = NULL;
-                im_free_list[i] = NULL;
-                return;
-            }
-            long* prev_page = (long*)*(long_page_start + 2);
-            long* prev_page_next_ptr = prev_page + 1;
-            *prev_page_next_ptr = 0;
-            im_free_list[i] = prev_page;
-            //original next page != NULL
-        }else{
-            long* prev_page = (long*)*(long_page_start + 2);
-            long* prev_page_next_ptr = prev_page + 1;
-            long* next_page = (long*)*(long_page_start + 1);
-            *(next_page + 2) = (long)(prev_page);
-            munmap(long_page_start, size);
-            if(long_page_start == map_list[i]){
-                map_list[i] = next_page;
-                return;
-            }
-            *prev_page_next_ptr = (long)(next_page);
-        }
+        size = *long_page_start;
+        munmap(ptr, size);
+        return;
     }else{
         original_next_page = (long*)*(long_page_start + 1);
         length = *(int_page_start + 1);
@@ -231,8 +190,7 @@ void * big_map(int size){
     void * map = mmap ( NULL , size + 24, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
     temp = map;
 
-    *temp = (long)size;
-    *temp |= 0x8000000000000000;
+    *temp = (long)size + 24;
     temp++;
     *temp = (int)NULL;
     temp++;
