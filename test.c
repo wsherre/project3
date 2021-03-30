@@ -27,7 +27,7 @@ int main(int argc, char** argv){
         free(ptr[i]);
         c
     }*/
-    for(int i = 0; i < 500; ++i){
+    for(int i = 0; i < 10000; ++i){
         ptr[i] = malloc(8);
         memset(ptr[i], i, 8);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
