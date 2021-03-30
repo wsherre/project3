@@ -56,6 +56,11 @@ int main(int argc, char** argv){
             }
         }
     }
+    for(int i = 0; i < 100; ++i){
+        if(ptr[i] !=NULL){
+            free(ptr[i]);
+        }
+    }
 
     
     return 0;
