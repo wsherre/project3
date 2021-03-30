@@ -10,13 +10,14 @@ int main(int argc, char** argv){
     int k = 100000;
 
     for(int i = 1; i < k; ++i){
-        ptr[i] = malloc(4000);
+        ptr[i] = malloc(i);
         memset(ptr[i], 5, 4);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
     for(int i = 1; i < k; ++i){
-        ptr[i] = realloc(ptr[i], 4000);
-        *ptr[i] = i;
+        int num = rand() % 5000;
+        ptr[i] = realloc(ptr[i], num);
+        //*ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
     }
     for(int i = 1; i < k; ++i){
