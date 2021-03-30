@@ -59,11 +59,13 @@ void * malloc(size_t size){
             if(next_page == NULL){
                 page_start = new_map(map_page_size);
                 next_page = (long*)page_start;
+                next_page = (long*)*next_page;
                 free_list = page_start + 5;
                 offset = *(free_list);
             }else{
-                page_start = next_page;
+                page_start = (short*)next_page;
                 next_page = (long*)page_start;
+                next_page = (long*)*next_page;
                 free_list = page_start + 5;
                 offset = *(free_list);
             }
