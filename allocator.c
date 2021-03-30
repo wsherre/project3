@@ -57,6 +57,7 @@ void * malloc(size_t size){
         
     }else
         return big_map(size);
+    return NULL;
 }
 
 void * get_free_map(int page_length, int i){
@@ -78,7 +79,7 @@ void free(void * ptr){
     long temp = (long)ptr & ~0xfff;
     int* int_page_start = (int*)temp;
     long* long_page_start = (long*)temp;
-    long* original_next_page;
+    long* original_next_page = NULL;
     int length, i, size;
     if(*long_page_start > 1024){
         size = *long_page_start;

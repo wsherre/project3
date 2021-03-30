@@ -7,7 +7,7 @@
 int main(int argc, char** argv){
 
     int* ptr[1000000];
-    int k = 50000;
+    //int k = 50000;
 
     ptr[0] = malloc(8);
     /*for(int i = 1; i < k; ++i){
@@ -18,7 +18,7 @@ int main(int argc, char** argv){
     for(int i = 1; i < k; ++i){
         int num = rand() % 4000;
         ptr[i] = realloc(ptr[i], i);
-        //*ptr[i] = i;
+        *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d %d\n", ptr[i], i, num);
     }
     for(int i = 1; i < k; ++i){
