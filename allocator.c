@@ -71,7 +71,7 @@ void * malloc(size_t size){
             }
         }
         short * return_ptr = (short*)((long) short_page_start | (long)offset);
-        *free_list = ((short)(return_ptr + map_page_size/2) & 0xfff);
+        *free_list = ((short)(return_ptr + map_page_size/2 + 1) & 0xfff);
         return return_ptr;
         
     }else
