@@ -11,7 +11,8 @@ int main(int argc, char** argv){
 
     for(int i = 1; i < 500; ++i){
         ptr[i] = malloc(1024);
-        memset(ptr[i], 5, 4);
+        //memset(ptr[i], 5, 4);
+        *ptr[i] = i;
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }/*
     for(int i = 1; i < k; ++i){
