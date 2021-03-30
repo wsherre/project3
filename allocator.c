@@ -48,8 +48,6 @@ void * malloc(size_t size){
         int i = return_i(map_page_size);
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
-            short* start = map_list[i];
-            return start + 6;
         }
         short* page_start = map_list[i];
         long* next_page = (long*)page_start;
