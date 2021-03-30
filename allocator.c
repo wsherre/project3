@@ -8,6 +8,24 @@
 #define list_size 9
 #define page_size 4096
 #define max_block_size 1024
+/*
+small block headers are like so
+
+|-----------------|-------------|-----------------|
+| 8 byte next_ptr | 2 byte size | 2 byte free_list|
+|-----------------|-------------|-----------------|
+
+size is the size of the map, 8,16,32,64 etc
+return the pointer by concatinating it with the page head
+
+smabigll block headers are like so
+
+|-----------------|
+| 8 byte size     |
+|-----------------|
+
+dont really need anything else. just the size when needed to unmap
+*/
 
 void __attribute__((constructor)) lib_init();
 int search(void*);
@@ -30,10 +48,10 @@ void lib_init(){
 void * malloc(size_t size){
 
     if(size == 0) return NULL;
-    //this simple algorithm rounds up the size to the next highest power of 2
     unsigned map_page_size = size;
     if(size <= max_block_size){
         if (size < 8) map_page_size = 7;
+        //this simple algorithm rounds up the size to the next highest power of 2
         map_page_size--;
         map_page_size |= map_page_size >> 1;
         map_page_size |= map_page_size >> 2;
@@ -43,18 +61,23 @@ void * malloc(size_t size){
         map_page_size++;
         
         int i = return_i(map_page_size);
+        //if empty make it not empty
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
         }
+        //one short and long page start. short for the pointer arithmetic
         short* short_page_start = map_list[i];
         long* long_page_start = map_list[i];
         long* next_page = (long*)*long_page_start;
         short* free_list = short_page_start + 5;
         short offset = *(free_list);
 
+        //if offset is 0 then our map is full
         while(offset == 0){
+            //if there isnt a new map, make one
             if(next_page == NULL){
                 map_list[i] = new_map(map_page_size);
+                //reset all the function variables
                 next_page = map_list[i];
                 *next_page = (long)long_page_start;
                 short_page_start = map_list[i];
@@ -62,6 +85,7 @@ void * malloc(size_t size){
                 free_list = short_page_start + 5;
                 offset = *(free_list);
             }else{
+                //set the function variables for the next map
                 short_page_start = (short*) next_page;
                 long_page_start = next_page;
                 next_page = (long*)*long_page_start;
@@ -69,11 +93,13 @@ void * malloc(size_t size){
                 offset = *(free_list);
             }
         }
+        //make the return pointer and update the free list
         short * return_ptr = (short*)((long) short_page_start | (long)offset);
         *free_list = *(return_ptr + map_page_size/2);
         return return_ptr;
         
     }else
+        //big map return big pointer
         return big_map(size);
     return NULL;
 }
@@ -86,7 +112,8 @@ void free(void * ptr){
     int map_page_size;
 
 
-    if(*long_page_start > 1024){
+    if(*long_page_start < 0){
+        map_page_size = *long_page_start & 0x7fffffffffffffff;
         map_page_size = *long_page_start;
         munmap(ptr, map_page_size);
         return;
@@ -111,12 +138,12 @@ void * realloc(void * ptr, size_t size){
     if(ptr == NULL) return malloc(size);
 
     long temp = (long)ptr & ~0xfff;
-    long* page_start = (long*)temp;
+    short* page_start = (long*)temp;
     int old_length = 0;
 
 
-    if(*page_start > 1024){
-        old_length = *page_start;
+    if(*page_start < 0){
+        old_length = ((long)*page_start & 0x7fffffffffffffff);
     }else{
         int* small_page = (int*)temp;
         old_length = *(small_page + 1);
@@ -170,6 +197,7 @@ void * big_map(int size){
     temp = map;
 
     *temp = size + 8;
+    *temp |= 0x8000000000000000;
     temp++;
     return temp;
 }
