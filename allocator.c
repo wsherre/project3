@@ -48,12 +48,17 @@ void * malloc(size_t size){
         int i = return_i(map_page_size);
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
-            int* start = map_list[i];
-            return start + 5;
+            short* start = map_list[i];
+            return start + 6;
         }
-        int* page_start = map_list[i];
-        long* next_page = (long*)(page_start + 2);
-        unsigned int offset = ( unsigned int)*(page_start + 4);
+        short* page_start = map_list[i];
+        long* next_page = page_start;
+        next_page = (long*)*next_page;
+        short* free_list = page_start + 5;
+        short offset = *(free_list);
+        short * return_ptr = (short*)((long) page_start | (long)offset);
+        free_list = *(return_ptr + map_page_size/2 + 1) & 0xfff;
+        return return_ptr;
         
     }else
         return big_map(size);
@@ -185,6 +190,7 @@ void* new_map(int map_page_size){
         }
         temp += map_page_size/2;
         *temp = 0;
+        temp = map;
 
         return map;
 }
