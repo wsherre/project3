@@ -34,7 +34,7 @@ int main(int argc, char** argv){
         int num = rand() % 5000 + 4;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
-            *ptr[index] = index;
+            *ptr[index] = num;
             fprintf(stdout, "Mallocing %p %d %d\n", ptr[index], *ptr[index], index);
         }else{
             if(num < 2500){
