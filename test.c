@@ -30,20 +30,21 @@ int main(int argc, char** argv){
         ptr[i] = NULL;
     }
     for( int i = 0; i < 5000000; ++i){
+        int index = rand() % 100;
         int num = rand() % 5000 + 4;
-        if(ptr[i] == NULL){
-            ptr[i] = malloc(num);
-            *ptr[i] = i;
-            fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
+        if(ptr[index] == NULL){
+            ptr[index] = malloc(num);
+            *ptr[index] = index;
+            fprintf(stdout, "Mallocing %p %d %d\n", ptr[index], *ptr[index], index);
         }else{
             if(num < 2500){
-                ptr[i] = realloc(ptr[i], rand() % 6000);
-                *ptr[i] = i;
-                fprintf(stdout, "Reallocing %p %d %d\n", ptr[i], *ptr[i], i);
+                ptr[index] = realloc(ptr[index], rand() % 6000);
+                *ptr[index] = index;
+                fprintf(stdout, "Reallocing %p %d %d\n", ptr[index], *ptr[index], index);
             }else{
-                free(ptr[i]);
-                fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
-                ptr[i] = NULL;
+                free(ptr[index]);
+                fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
+                ptr[index] = NULL;
             }
         }
     }
