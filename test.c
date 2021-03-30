@@ -11,7 +11,7 @@ int main(int argc, char** argv){
 
 
     for(int i = 1; i < k; ++i){
-        ptr[i] = malloc(8);
+        ptr[i] = malloc(k);
         *ptr[i] = i;
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
