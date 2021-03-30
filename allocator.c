@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define list_size 8
+#define list_size 9
 #define page_size 4096
 #define max_block_size 1024
 
@@ -14,6 +14,7 @@ int search(void*);
 void*new_map(int size);
 void* big_map(int size);
 int return_i(int map_page_size);
+void* get_free_map(int, int );
 
 void * map_list[list_size];
 void * im_free_list[list_size];
@@ -47,38 +48,28 @@ void * malloc(size_t size){
         int i = return_i(map_page_size);
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
-            im_free_list[i] = map_list[i];
+            int* start = map_list[i];
+            return start + 5;
         }
-        int* page_start = im_free_list[i];
+        int* page_start = map_list[i];
         long* next_page = (long*)(page_start + 2);
         unsigned int offset = ( unsigned int)*(page_start + 4);
-        if(offset == 0xffff){
-            long * n_map = new_map(map_page_size);
-            *next_page = (long)n_map;
-            page_start = (int*) n_map;
-            offset = ( unsigned int)*(page_start + 4);
-            im_free_list[i] = n_map;
-        }
-        long* free_list = NULL;
-        free_list = (long*) ((long)page_start | (long)offset);
-
-        int* next_ptr = (int*) free_list;
-        next_ptr += map_page_size/4;
-        int ptr = 0;
         
-        //*page_start += (map_page_size + 4);
-        int next_start = (int)(next_ptr + 1) & 0xfff;
-        if ((page_size  - next_start) < (map_page_size + 4)) 
-            ptr = 0xffff;
-        else 
-            ptr = (long)(next_ptr + 1) & 0x0fff;
-        
-        *next_ptr = ptr;
-        *(page_start + 4) = ptr;
-        *page_start += map_page_size + 4;
-        return (void*) free_list;
     }else
         return big_map(size);
+}
+
+void * get_free_map(int page_length, int i){
+    int* start = im_free_list[i];
+    if(start = NULL){
+        start = new_map(4096);
+        *(start + 2) = (long)map_list[i];
+        map_list[i] = start;
+    }
+    im_free_list[i] = (long*)*(start + 2);
+    *(start + 2) = 0;
+    start += 5;
+    return start;
 }
 
 void free(void * ptr){
@@ -93,7 +84,7 @@ void free(void * ptr){
         munmap(ptr, size);
         return;
     }else{
-        original_next_page = (long*)*(long_page_start + 1);
+        //original_next_page = (long*)*(long_page_start + 1);
         length = *(int_page_start + 1);
         *int_page_start -= (length + 4);
         i = return_i(length);
@@ -166,21 +157,30 @@ void * realloc(void * ptr, size_t size){
 }
 
 void* new_map(int map_page_size){
-        int* temp;
+        short* temp;
+        long* ptr;
         void * map = mmap ( NULL , page_size , PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 
-        temp = map; 
-        *temp = 20;
 
-        temp++; 
+        //0x...000
+        temp = map;
+        ptr = map;
+        *ptr = 0;
+
+        //0x...008
+        temp+=4;
         *temp = map_page_size;
 
-        temp++; 
-        *temp = (int)NULL;
+        //0x...00a = 0x...00c
+        temp++;
+        *temp = temp + 1;
 
-        temp+=2;
-        unsigned int t = (unsigned int)(temp + 1) & 0x00000fff;
-        *temp = t;
+        while( page_size - ((long) (temp + map_page_size/2 + 1)) > map_page_size + 2){
+            temp += map_page_size/2;
+            *temp = (short)(temp + 1) & 0x0fff;
+            temp++;
+        }
+        *(temp - 1) = 0;
 
         return map;
 }
