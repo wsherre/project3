@@ -79,7 +79,6 @@ void * malloc(size_t size){
         if(offset == 0){ 
             long_page_start = get_free_block(map_list[i], map_page_size);
             short_page_start = (short*)long_page_start;
-            short_page_start = (short*) next_page;
             next_page = (long*)*long_page_start;
             free_list = short_page_start + 5;
             offset = *(free_list);
