@@ -31,7 +31,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < 100; ++i){
         ptr[i] = NULL;
     }
-    for( int i = 0; i < 20000; ++i){
+    for( int i = 0; i < 100000; ++i){
         int index = rand() % 100;
         int num = rand() % 5000 + 4;
         if(ptr[index] == NULL){
