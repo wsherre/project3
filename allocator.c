@@ -97,7 +97,7 @@ void free(void * ptr){
         short* freed_ptr = (short*)ptr;
         freed_ptr += map_page_size/2;
         *freed_ptr = offset;
-        *free_list = (short)((short)freed_ptr & 0xfff);
+        *free_list = (short)((short)ptr & 0xfff);
     }  
 }
 
