@@ -167,7 +167,7 @@ void * realloc(void * ptr, size_t size){
 
 void* new_map(int map_page_size){
         int* temp;
-        void * map = mmap ( NULL , page_size , PROT_READ | PROT_WRITE , MAP_PRIVATE , -1 , 0);
+        void * map = mmap ( NULL , page_size , PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS , -1 , 0);
 
         temp = map; 
         *temp = 20;
@@ -187,7 +187,7 @@ void* new_map(int map_page_size){
 
 void * big_map(int size){
     long* temp = NULL;
-    void * map = mmap ( NULL , size + 8, PROT_READ | PROT_WRITE , MAP_PRIVATE , -1 , 0);
+    void * map = mmap ( NULL , size + 8, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1 , 0);
     temp = map;
 
     *temp = size + 8;
