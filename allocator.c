@@ -187,15 +187,11 @@ void* new_map(int map_page_size){
 
 void * big_map(int size){
     long* temp = NULL;
-    void * map = mmap ( NULL , size + 24, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
+    void * map = mmap ( NULL , size + 8, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
     temp = map;
 
-    *temp = (long)size + 24;
-    temp++;
-    *temp = (int)NULL;
-    temp++;
-    *temp = (int)NULL;
-    return map;
+    *temp = (long)size + 8;
+    return temp;
 }
 
 
