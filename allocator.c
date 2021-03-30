@@ -202,7 +202,7 @@ void* new_map(int map_page_size){
             *temp = (short)(temp + 1) & 0x0fff;
             temp++;
         }
-        temp += map_page_size/2;
+        temp--;
         *temp = 0;
         temp = map;
 
