@@ -29,7 +29,7 @@ int main(int argc, char** argv){
     }*/
     /*for(int i = 0; i < 10000; ++i){
         ptr[i] = malloc(8);
-        memset(ptr[i], i, 8);
+        memset(ptr[i], i, 8);`
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }*/
 
@@ -42,7 +42,7 @@ int main(int argc, char** argv){
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
             memset(ptr[index], 1, num);
-            fprintf(stdout, "Mallocing %p %d %d\n", ptr[index], *ptr[index], index);
+            fprintf(stdout, "Mallocing %p %d %d\n", ptr[index], *ptr[index], num);
         }else{
             if(num < 2500){
                 ptr[index] = realloc(ptr[index], rand() % 6000 + 4);
