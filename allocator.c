@@ -63,7 +63,7 @@ void * malloc(size_t size){
                 free_list = new_start + 5;
                 offset = *(free_list);
             }else{
-                short_page_start = next_page;
+                short_page_start = (short*) next_page;
                 long_page_start = next_page;
                 next_page = (long*)*long_page_start;
                 free_list = short_page_start + 5;
