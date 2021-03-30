@@ -33,7 +33,7 @@ int main(int argc, char** argv){
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }*/
 
-    for(int i = 0; i < 400; ++i){
+    /*for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = 8;
         fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
@@ -44,12 +44,12 @@ int main(int argc, char** argv){
     }
     for(int i = 0; i < 400; ++i){
         free(ptr[i]);
-    }
+    }*/
     for(int i = 0; i < 400; ++i){
         ptr[i] = NULL;
     }
-    /*for( int i = 0; i < 10000; ++i){
-        int index = rand() % 100;42
+    for( int i = 0; i < 10000; ++i){
+        int index = rand() % 100;
         int num = rand() % 5000 + 4;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
@@ -73,7 +73,7 @@ int main(int argc, char** argv){
             free(ptr[i]);
             fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
         }
-    }*/
+    }
 
     
     return 0;
