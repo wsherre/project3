@@ -108,7 +108,7 @@ void free(void * ptr){
     if(ptr == NULL) return;
     long temp = (long)ptr & ~0xfff;
     short* short_page_start = (short*)temp;
-    long* long_page_start = (long*)ptr;
+    long* long_page_start = (long*)(ptr - 1);
     int map_page_size;
 
 
@@ -138,7 +138,7 @@ void * realloc(void * ptr, size_t size){
     if(ptr == NULL) return malloc(size);
 
     long temp = (long)ptr & ~0xfff;
-    long* long_page_start = ptr;
+    long* long_page_start = ptr - 1;
     short* page_start = (short*)temp;
     int old_length = 0;
 
