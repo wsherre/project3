@@ -55,7 +55,7 @@ void * malloc(size_t size){
         short* free_list = page_start + 5;
         short offset = *(free_list);
         short * return_ptr = (short*)((long) page_start | (long)offset);
-        *free_list = *(return_ptr + map_page_size/2 + 1) & 0xfff;
+        *free_list = (short)(return_ptr + map_page_size/2 + 1) & 0xfff;
         return return_ptr;
         
     }else
