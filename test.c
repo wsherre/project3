@@ -4,6 +4,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <time.h>
+#include <assert.h>
 
 int main(int argc, char** argv){
 
@@ -32,19 +33,20 @@ int main(int argc, char** argv){
         memset(ptr[i], i, 8);`
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }*/
-
-    /*for(int i = 0; i < 400; ++i){
+    int n[400];
+    for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
-        *ptr[i] = 8;
-        fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
+        *ptr[i] = i;
+        n[i] = i;
+        //fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
     }
     for(int i = 0; i < 400; ++i){
         ptr[i] = realloc(ptr[i], 8);
-        fprintf(stdout, "Reallocing %p %d\n", ptr[i], *ptr[i]);
+        assert(*ptr[i] == n[i]);
     }
     for(int i = 0; i < 400; ++i){
         free(ptr[i]);
-    }*/
+    }
     for(int i = 0; i < 400; ++i){
         ptr[i] = NULL;
     }
