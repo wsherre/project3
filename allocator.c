@@ -14,10 +14,8 @@ int search(void*);
 void*new_map(int size);
 void* big_map(int size);
 int return_i(int map_page_size);
-void* get_free_map(int, int );
 
 void * map_list[list_size];
-void * im_free_list[list_size];
 int fd;
 
 
@@ -26,7 +24,6 @@ void lib_init(){
     for(int i = 0; i < list_size; ++i){
         //map_list[i] = new_map(pow(2, i + 3));  
         map_list[i] = NULL;
-        im_free_list[i] = NULL;
     }
 }
 
@@ -81,70 +78,27 @@ void * malloc(size_t size){
     return NULL;
 }
 
-void * get_free_map(int page_length, int i){
-   /* int* start = im_free_list[i];
-    if(start = NULL){
-        start = new_map(4096);
-        *(start + 2) = (long)map_list[i];
-        map_list[i] = start;
-    }
-    im_free_list[i] = (long*)*(start + 2);
-    *(start + 2) = 0;
-    start += 5;
-    return start;*/
-    return NULL;
-}
-
 void free(void * ptr){
     if(ptr == NULL) return;
     long temp = (long)ptr & ~0xfff;
-    int* int_page_start = (int*)temp;
+    short* short_page_start = (int*)temp;
     long* long_page_start = (long*)temp;
     long* original_next_page = NULL;
-    int length, i, size;
+    int map_page_size;
+
+
     if(*long_page_start > 1024){
-        size = *long_page_start;
-        munmap(ptr, size);
+        map_page_size = *long_page_start;
+        munmap(ptr, map_page_size);
         return;
     }else{
-        //original_next_page = (long*)*(long_page_start + 1);
-        length = *(int_page_start + 1);
-        *int_page_start -= (length + 4);
-        i = return_i(length);
-        size = page_size;
-
-        if(*int_page_start == 20 && original_next_page != NULL){
-            if((void*)long_page_start == map_list[i]){
-                munmap(long_page_start, size);
-                map_list[i] = (void*)original_next_page;
-                return;
-            }
-            long* begin_of_page = (long*)map_list[i];
-            long* begin_of_next_page = (long*)*(begin_of_page + 1);
-
-            while(begin_of_next_page != long_page_start){ 
-                begin_of_page = begin_of_next_page;       
-                begin_of_next_page = (long*)*(begin_of_page + 1);
-            }
-            *(begin_of_page + 1) = (long)original_next_page;
-            munmap(long_page_start, size);
-
-        }else if( *int_page_start == 20 && original_next_page == NULL){
-            munmap(long_page_start, size);
-            if(int_page_start == map_list[i]){
-                map_list[i] = NULL;
-                return;
-            } else{
-                long* begin_of_page = (long*)map_list[i];
-                long* begin_of_next_page = (long*)*(begin_of_page + 1);
-
-                while(begin_of_next_page != long_page_start){ 
-                    begin_of_page = begin_of_next_page;       
-                    begin_of_next_page = (long*)*(begin_of_page + 1);
-                }
-                *(begin_of_page + 1) = (int)NULL;
-            }
-        }
+        map_page_size = *(short_page_start + 4);
+        short* free_list = short_page_start + 5;
+        short offset = *free_list;
+        short* freed_ptr = (short*)ptr;
+        freed_ptr += map_page_size/2;
+        *freed_ptr = offset;
+        *free_list = (short)((short)freed_ptr & 0xfff);
     }  
 }
 
