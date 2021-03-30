@@ -81,9 +81,8 @@ void * malloc(size_t size){
 void free(void * ptr){
     if(ptr == NULL) return;
     long temp = (long)ptr & ~0xfff;
-    short* short_page_start = (int*)temp;
+    short* short_page_start = (short*)temp;
     long* long_page_start = (long*)temp;
-    long* original_next_page = NULL;
     int map_page_size;
 
 
