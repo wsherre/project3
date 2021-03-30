@@ -42,7 +42,7 @@ int main(int argc, char** argv){
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
             memset(ptr[index], 1, num);
-            fprintf(stdout, "Mallocing %p %d %d %\n", ptr[index], *ptr[index], num, i);
+            fprintf(stdout, "Mallocing %p %d %d %d\n", ptr[index], *ptr[index], num, i);
         }else{
             if(num < 2500){
                 ptr[index] = realloc(ptr[index], rand() % 6000 + 4);
