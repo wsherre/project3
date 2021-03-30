@@ -41,13 +41,14 @@ int main(int argc, char** argv){
         int num = rand() % 5000 + 4;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
-            *ptr[index];
+            *ptr[index] = num;
             fprintf(stdout, "Mallocing %p %d %d %d\n", ptr[index], *ptr[index], num, i);
         }else{
             if(num < 2500){
-                ptr[index] = realloc(ptr[index], rand() % 6000 + 4);
-                *ptr[index];
-                fprintf(stdout, "Reallocing %p %d %d\n", ptr[index], *ptr[index], index);
+                int num = rand() % 6000 + 4;
+                ptr[index] = realloc(ptr[index], num);
+                *ptr[index] = num;
+                fprintf(stdout, "Reallocing %p %d %d %d\n", ptr[index], *ptr[index], num, i);
             }else{
                 free(ptr[index]);
                 fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
