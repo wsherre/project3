@@ -96,6 +96,7 @@ void * malloc(size_t size){
 }
 void* get_free_block(void* head, int map_page_size){
     short* start_of_page = head;
+    long* long_page_start = head;
     long* next_page = head;
     next_page = (long*)*next_page;
     short* free_list = (start_of_page + 5);
@@ -105,7 +106,7 @@ void* get_free_block(void* head, int map_page_size){
     }else{
         if(next_page == NULL){
             long* newptr = new_map(map_page_size);
-            *next_page = (long)newptr;
+            *long_page_start = (long)newptr;
             return newptr;
         }
     }
