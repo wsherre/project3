@@ -52,7 +52,7 @@ void * malloc(size_t size){
             return start + 6;
         }
         short* page_start = map_list[i];
-        long* next_page = page_start;
+        long* next_page = (long*)page_start;
         next_page = (long*)*next_page;
         short* free_list = page_start + 5;
         short offset = *(free_list);
