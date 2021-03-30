@@ -18,7 +18,7 @@ int main(int argc, char** argv){
         int num = rand() % 5000;
         ptr[i] = realloc(ptr[i], num);
         //*ptr[i] = i;
-        fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
+        fprintf(stdout, "Reallocing %p %d %d\n", ptr[i], i, num);
     }
     for(int i = 1; i < k; ++i){
         free(ptr[i]);
