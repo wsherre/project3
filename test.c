@@ -16,7 +16,7 @@ int main(int argc, char** argv){
     }
     for(int i = 1; i < k; ++i){
         int num = rand() % 1024;
-        ptr[i] = realloc(ptr[i], num);
+        ptr[i] = realloc(ptr[i], i);
         //*ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d %d\n", ptr[i], i, num);
     }
