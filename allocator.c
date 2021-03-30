@@ -94,21 +94,25 @@ void * malloc(size_t size){
     return NULL;
 }
 void* get_free_block(void* head, int map_page_size){
+    //initialize header info
     short* start_of_page = head;
     long* long_page_start = head;
     long* next_page = head;
     next_page = (long*)*next_page;
     short* free_list = (start_of_page + 5);
 
+    //if the free_list is not null return the page
     if(*free_list != 0){
         return head;
     }else{
+        //if free_list is null and next_page is null, make a new page
         if(next_page == NULL){
             long* newptr = new_map(map_page_size);
             *long_page_start = (long)newptr;
             return newptr;
         }
     }
+    //recursive
     return get_free_block(next_page, map_page_size);
 }
 void free(void * ptr){

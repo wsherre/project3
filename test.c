@@ -27,13 +27,13 @@ int main(int argc, char** argv){
         free(ptr[i]);
         c
     }*/
-    for(int i = 0; i < 10000; ++i){
+    /*for(int i = 0; i < 10000; ++i){
         ptr[i] = malloc(8);
         memset(ptr[i], i, 8);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
-    }
+    }*/
 
-    /*for(int i = 0; i < 100; ++i){
+    for(int i = 0; i < 100; ++i){
         ptr[i] = NULL;
     }
     for( int i = 0; i < 100000; ++i){
@@ -54,7 +54,7 @@ int main(int argc, char** argv){
                 ptr[index] = NULL;
             }
         }
-    }*/
+    }
 
     
     return 0;
