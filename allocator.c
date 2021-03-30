@@ -35,6 +35,7 @@ int return_i(int map_page_size);
 
 void * map_list[list_size];
 int fd;
+double log_2;
 
 
 void lib_init(){
@@ -43,6 +44,7 @@ void lib_init(){
         //map_list[i] = new_map(pow(2, i + 3));  
         map_list[i] = NULL;
     }
+    log_2 = log(2);
 }
 
 void * malloc(size_t size){
@@ -60,7 +62,7 @@ void * malloc(size_t size){
         map_page_size |= map_page_size >> 16;
         map_page_size++;
         
-        int i = return_i(map_page_size);
+        int i = log(map_page_size)/log_2 - 3;
         //if empty make it not empty
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
