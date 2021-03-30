@@ -190,7 +190,7 @@ void * big_map(int size){
     void * map = mmap ( NULL , size + 8, PROT_READ | PROT_WRITE , MAP_PRIVATE , fd , 0);
     temp = map;
 
-    *temp = (long)size + 8;
+    *temp = size + 8;
     temp++;
     return temp;
 }
