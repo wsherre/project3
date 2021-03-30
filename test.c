@@ -49,7 +49,7 @@ int main(int argc, char** argv){
         ptr[i] = NULL;
     }
     /*for( int i = 0; i < 10000; ++i){
-        int index = rand() % 100;
+        int index = rand() % 100;42
         int num = rand() % 5000 + 4;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
