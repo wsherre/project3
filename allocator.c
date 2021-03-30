@@ -120,6 +120,7 @@ void free(void * ptr){
 
     //get beginning
     long temp = (long)ptr & ~0xfff;
+    short* short_page_start = (short*)temp;
     long* long_page_start = ptr;
     long_page_start--;
     int map_page_size;
@@ -131,7 +132,6 @@ void free(void * ptr){
         munmap(ptr, map_page_size);
         return;
     }else{
-        short* short_page_start = (short*)long_page_start;
         //get the size of the page
         map_page_size = *(short_page_start + 4);
         //get the free_list of the page
