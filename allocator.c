@@ -88,7 +88,7 @@ void free(void * ptr){
     long* long_page_start = (long*)temp;
     long* original_next_page;
     int length, i, size;
-    if(*long_page_start < 0){
+    if(*long_page_start > 1024){
         size = *long_page_start;
         munmap(ptr, size);
         return;
