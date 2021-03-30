@@ -49,28 +49,27 @@ void * malloc(size_t size){
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
         }
-        short* page_start = map_list[i];
-        long* next_page = (long*)page_start;
+        short* short_page_start = map_list[i];
+        long* long_page_start = map_list[i];
+        long* next_page = (long*)long_page_start;
         next_page = (long*)*next_page;
-        short* free_list = page_start + 5;
+        short* free_list = short_page_start + 5;
         short offset = *(free_list);
 
         while(offset == 0){
             if(next_page == NULL){
                 short* new_start = new_map(map_page_size);
-                long* old_start = (long*)page_start;
-                *old_start = (long) ((long*)new_start);
+                *long_page_start = (long) ((long*)new_start);
                 free_list = new_start + 5;
                 offset = *(free_list);
             }else{
-                page_start = (short*)next_page;
-                next_page = (long*)page_start;
-                next_page = (long*)*next_page;
-                free_list = page_start + 5;
+                long_page_start = next_page;
+                next_page = (long*)*long_page_start;
+                free_list = short_page_start + 5;
                 offset = *(free_list);
             }
         }
-        short * return_ptr = (short*)((long) page_start | (long)offset);
+        short * return_ptr = (short*)(*long_page_start | (long)offset);
         *free_list = (short)(*(return_ptr + map_page_size/2) & 0xfff);
         return return_ptr;
         
