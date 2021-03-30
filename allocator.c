@@ -60,7 +60,7 @@ void * malloc(size_t size){
             if(next_page == NULL){
                 short* new_start = new_map(map_page_size);
                 *long_page_start = (long) ((long*)new_start);
-                long_page_start = new_start;
+                short_page_start = new_start;
                 free_list = new_start + 5;
                 offset = *(free_list);
             }else{
@@ -70,7 +70,7 @@ void * malloc(size_t size){
                 offset = *(free_list);
             }
         }
-        short * return_ptr = (short*)((long) long_page_start | (long)offset);
+        short * return_ptr = (short*)((long) short_page_start | (long)offset);
         *free_list = (short)(*(return_ptr + map_page_size/2) & 0xfff);
         return return_ptr;
         
