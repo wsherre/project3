@@ -15,7 +15,7 @@ int main(int argc, char** argv){
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
     for(int i = 1; i < k; ++i){
-        ptr[i] = realloc(ptr[i], 1026);
+        ptr[i] = realloc(ptr[i], 1025);
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
     }
