@@ -10,12 +10,12 @@ int main(int argc, char** argv){
     int k = 50000;
 
     for(int i = 1; i < k; ++i){
-        ptr[i] = malloc(i);
+        ptr[i] = malloc(4000);
         //gdbmemset(ptr[i], 5, 8);
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }
     for(int i = 1; i < k; ++i){
-        ptr[i] = realloc(ptr[i], i);
+        ptr[i] = realloc(ptr[i], 4000);
         *ptr[i] = i;
         fprintf(stdout, "Reallocing %p %d\n", ptr[i], i);
     }
