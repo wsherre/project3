@@ -148,8 +148,8 @@ void * realloc(void * ptr, size_t size){
     int old_length = 0;
 
 
-    if(*page_start < 0){
-        old_length = *page_start & 0x7fffffffffffffff;
+    if(*page_start > 1024){
+        old_length = *page_start;
     }else{
         int* small_page = (int*)temp;
         old_length = *(small_page + 1);
