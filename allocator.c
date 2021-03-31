@@ -121,7 +121,7 @@ void free(void * ptr){
     //get beginning
     long temp = (long)ptr & ~0xfff;
     short* short_page_start = (short*)temp;
-    long* long_page_start = ptr;
+    long* long_page_start = (long*)temp;
     long_page_start--;
     int map_page_size;
 
