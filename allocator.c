@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define list_size 9
+#define list_size 11
 #define page_size 4096
 #define max_block_size 1024
 /*
@@ -32,7 +32,6 @@ int search(void*);
 void*new_map(int size);
 void* big_map(int size);
 void* get_free_block(void* head, int map_page_size);
-int return_i(int map_page_size);
 
 void * map_list[list_size];
 int fd;
@@ -53,7 +52,7 @@ void * malloc(size_t size){
     if(size == 0) return NULL;
     unsigned map_page_size = size;
     if(size <= max_block_size){
-        if (size < 8) map_page_size = 7;
+        //if (size < 8) map_page_size = 7;
         //this simple algorithm rounds up the size to the next highest power of 2
         map_page_size--;
         map_page_size |= map_page_size >> 1;
@@ -63,7 +62,7 @@ void * malloc(size_t size){
         map_page_size |= map_page_size >> 16;
         map_page_size++;
         
-        int i = log(map_page_size)/log_2 - 3;
+        int i = log(map_page_size)/log_2 - 1;
         //if empty make it not empty
         if(map_list[i] == NULL){
             map_list[i] = new_map(map_page_size);
@@ -224,17 +223,3 @@ void * big_map(int size){
     return temp;
 }
 
-
-int return_i(int map_page_size){
-    int i = 0;
-    if(map_page_size == 8) i = 0;
-    else if(map_page_size == 16) i = 1;
-    else if(map_page_size == 32) i = 2;
-    else if(map_page_size == 64) i = 3;
-    else if(map_page_size == 128) i = 4;
-    else if(map_page_size == 256) i = 5;
-    else if(map_page_size == 512) i = 6;
-    else if(map_page_size == 1024) i = 7;
-    else i = 8;
-    return i;
-}
