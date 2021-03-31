@@ -34,6 +34,12 @@ int main(int argc, char** argv){
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }*/
     char n[400];
+    for( int i = 0; i < 5; ++i){
+        ptr[i] = malloc(4500);
+    }
+    for( int i = 0; i < 5; ++i){
+        free(ptr[i]);
+    }
     for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = i % 256;
