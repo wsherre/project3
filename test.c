@@ -58,7 +58,7 @@ int main(int argc, char** argv){
             *ptr[index] = num;
             fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
-            if(num < 2500){
+            if(num < 512){
                 int num = rand() % 1024 + 2;
                 ptr[index] = realloc(ptr[index], num);
                 *ptr[index] = num;
