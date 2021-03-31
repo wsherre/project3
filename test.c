@@ -36,8 +36,8 @@ int main(int argc, char** argv){
     char n[400];
     for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
-        *ptr[i] = i;
-        n[i] = i;
+        *ptr[i] = i % 256;
+        n[i] = i % 256;
         //fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
     }
     for(int i = 0; i < 400; ++i){
@@ -55,13 +55,13 @@ int main(int argc, char** argv){
         int num = rand() % 1024;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
-            *ptr[index] = num;
+            *ptr[index] = num % 256;
             //fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             if(num < 512){
                 int num = rand() % 1024;
                 ptr[index] = realloc(ptr[index], num);
-                *ptr[index] = num;
+                *ptr[index] = num % 256;
                 //fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
                 free(ptr[index]);
