@@ -35,12 +35,11 @@ int main(int argc, char** argv){
     }*/
     char n[400];
     for( int i = 0; i < 5; ++i){
-        ptr[i] = malloc(4090);
-        memset(ptr[i], 1, 4090);
+        ptr[i] = malloc(4500);
     }
     for( int i = 0; i < 5; ++i){
         free(ptr[i]);
-    }/*
+    }
     for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = i % 256;
@@ -83,7 +82,7 @@ int main(int argc, char** argv){
             //fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
         }
     }
-*/
+
     
     return 0;
 }
