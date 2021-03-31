@@ -35,7 +35,7 @@ int main(int argc, char** argv){
     }*/
     char n[400];
     for( int i = 0; i < 5; ++i){
-        ptr[i] = malloc(4500);
+        ptr[i] = malloc(4095);
     }
     for( int i = 0; i < 5; ++i){
         free(ptr[i]);
