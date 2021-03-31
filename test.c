@@ -36,7 +36,7 @@ int main(int argc, char** argv){
     char n[400];
     for( int i = 0; i < 5; ++i){
         ptr[i] = malloc(4090);
-        *ptr[i] = 5;
+        memset(ptr[i], 1, 4090);
     }
     for( int i = 0; i < 5; ++i){
         free(ptr[i]);
