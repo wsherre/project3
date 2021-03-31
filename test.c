@@ -55,13 +55,13 @@ int main(int argc, char** argv){
         int num = rand() % 1024 + 1;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
-            *ptr[index] = num % 256;
+            *ptr[index] = 0;
             //fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             if(num < 512){
                 int num = rand() % 1024 + 1;
                 ptr[index] = realloc(ptr[index], num);
-                *ptr[index] = num % 256;
+                *ptr[index] = 0;
                 //fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
                 free(ptr[index]);
