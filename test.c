@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv){
 
-    int* ptr[1000000];
+    char* ptr[1000000];
     time_t t;
     //srand((unsigned) time(&t));
 
@@ -52,14 +52,14 @@ int main(int argc, char** argv){
     }
     for( int i = 0; i < 5000000; ++i){
         int index = rand() % 100;
-        int num = rand() % 1024 + 2;
+        int num = rand() % 1024;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
             *ptr[index] = num;
             //fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             if(num < 512){
-                int num = rand() % 1024 + 2;
+                int num = rand() % 1024;
                 ptr[index] = realloc(ptr[index], num);
                 *ptr[index] = num;
                 //fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
