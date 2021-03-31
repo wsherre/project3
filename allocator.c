@@ -158,8 +158,8 @@ void * realloc(void * ptr, size_t size){
     if(ptr == NULL) return malloc(size);
 
     long temp = (long)ptr & ~0xfff;
-    long* long_page_start = ptr;
-    long_page_start--;
+    long* long_page_start = (long*)temp;
+    //long_page_start--;
     int old_length = 0;
 
 
