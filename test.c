@@ -56,16 +56,16 @@ int main(int argc, char** argv){
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
             *ptr[index] = num;
-            fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
+            //fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             if(num < 512){
                 int num = rand() % 1024 + 2;
                 ptr[index] = realloc(ptr[index], num);
                 *ptr[index] = num;
-                fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
+                //fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
                 free(ptr[index]);
-                fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
+                //fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
                 ptr[index] = NULL;
             }
         }
@@ -73,7 +73,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < 100; ++i){
         if(ptr[i] != NULL){
             free(ptr[i]);
-            fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
+            //fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
         }
     }
 
