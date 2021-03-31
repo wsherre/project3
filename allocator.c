@@ -126,10 +126,10 @@ void free(void * ptr){
     int map_page_size;
 
     //if first bit is a 1 (big)
-    if(*long_page_start < 0){
+    if(*short_page_start < 0){
         //unmap the big
-        map_page_size = *long_page_start & 0x7fff;
-        munmap(long_page_start, map_page_size * page_size);
+        map_page_size = *short_page_start & 0x7fff;
+        munmap(short_page_start, map_page_size * page_size);
         return;
     }else{
         //get the size of the page
