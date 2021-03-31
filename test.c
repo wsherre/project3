@@ -33,7 +33,7 @@ int main(int argc, char** argv){
         memset(ptr[i], i, 8);`
         fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
     }*/
-    int n[400];
+    char n[400];
     for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = i;
