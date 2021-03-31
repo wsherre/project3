@@ -219,8 +219,7 @@ void* new_map(int map_page_size){
 void * big_map(int size){
     short* temp = NULL;
     int total_maps = ((size + 2) % page_size) + 1;
-    total_maps *= page_size;
-    void * map = mmap ( NULL , total_maps, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1 , 0);
+    void * map = mmap ( NULL , total_maps * page_size, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1 , 0);
     temp = (short*)map;
 
     //set size
