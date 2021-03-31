@@ -50,7 +50,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < 400; ++i){
         ptr[i] = NULL;
     }
-    for( int i = 0; i < 150000; ++i){
+    for( int i = 0; i < 5000000; ++i){
         int index = rand() % 100;
         int num = rand() % 1024 + 2;
         if(ptr[index] == NULL){
