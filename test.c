@@ -61,7 +61,7 @@ int main(int argc, char** argv){
         int num = rand() % 5000 + 1;
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
-            *ptr[index] = 0;
+            *ptr[index] = 1;
             //fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             if(num < 512){
