@@ -129,7 +129,9 @@ void free(void * ptr){
     if(*short_page_start < 0){
         //unmap the big
         map_page_size = *short_page_start & 0x7fff;
-        munmap(short_page_start, map_page_size * page_size);
+        if(munmap(short_page_start, map_page_size * page_size) == -1){
+            printf("oof\n");
+        }
         return;
     }else{
         //get the size of the page
