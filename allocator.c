@@ -18,7 +18,7 @@ small block headers are like so
 size is the size of the map, 8,16,32,64 etc
 return the pointer by concatinating it with the page head
 
-smabigll block headers are like so
+big block headers are like so
 
 |-----------------|
 | 8 byte size     |
@@ -150,26 +150,29 @@ void free(void * ptr){
 }
 
 void * calloc(size_t num, size_t size){
+    //just malloc and set bits to 0
     void * page = malloc(num * size);
     memset(page, 0, num * size);
     return page;
 }
 
 void * realloc(void * ptr, size_t size){
+    //if null then return a malloc'd pointer
     if(ptr == NULL) return malloc(size);
 
+    //get the start of the page
     long temp = (long)ptr & ~0xfff;
     long* long_page_start = (long*)temp;
     int old_length = 0;
 
-
+    // get the length
     if(*long_page_start < 0){
         old_length = (*long_page_start & 0x7fffffffffffffff);
     }else{
         short* small_page = (short*)temp;
         old_length = *(small_page + 4);
     }
-    
+    //make a new pointer, copy the data and then free that pointer
     void* newptr = malloc(size);
     if(size < old_length)
         memcpy(newptr, ptr, size);
@@ -200,6 +203,7 @@ void* new_map(int map_page_size){
         *temp = (short)(temp + 1) & 0x0fff;
         temp++;
 
+        //setup free list
         while( page_size - ((long) (temp + map_page_size/2 + 1) & 0xfff) > map_page_size + 2){
             temp += map_page_size/2;
             *temp = (short)(temp + 1) & 0x0fff;
@@ -217,6 +221,7 @@ void * big_map(int size){
     void * map = mmap ( NULL , size + 8, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1 , 0);
     temp = map;
 
+    //set size
     *temp = size + 8;
     *temp |= 0x8000000000000000;
     temp++;
