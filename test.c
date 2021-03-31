@@ -9,8 +9,8 @@
 int main(int argc, char** argv){
 
     char* ptr[1000000];
-    time_t t;
-    srand((unsigned) time(&t));
+    //time_t t;
+    //srand((unsigned) time(&t));
 
 
     /*for(int i = 1; i < k; ++i){
