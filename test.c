@@ -39,7 +39,7 @@ int main(int argc, char** argv){
     }
     for( int i = 0; i < 5; ++i){
         free(ptr[i]);
-    }
+    }/*
     for(int i = 0; i < 400; ++i){
         ptr[i] = malloc(8);
         *ptr[i] = i % 256;
@@ -82,7 +82,7 @@ int main(int argc, char** argv){
             //fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
         }
     }
-
+*/
     
     return 0;
 }
