@@ -129,7 +129,7 @@ void free(void * ptr){
     if(*long_page_start < 0){
         //unmap the big
         map_page_size = *long_page_start & 0x7fffffffffffffff;
-        munmap(long_page_start, (map_page_size % 4096 + 1) * page_size);
+        munmap(long_page_start, map_page_size);
         return;
     }else{
         //get the size of the page
@@ -172,9 +172,9 @@ void * realloc(void * ptr, size_t size){
     
     void* newptr = malloc(size);
     if(size < old_length)
-        memmove(newptr, ptr, size);
+        memcpy(newptr, ptr, size);
     else    
-        memmove(newptr, ptr, old_length);
+        memcpy(newptr, ptr, old_length);
     free(ptr);
     return newptr;
 
