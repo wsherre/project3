@@ -128,8 +128,8 @@ void free(void * ptr){
     //if first bit is a 1 (big)
     if(*long_page_start < 0){
         //unmap the big
-        map_page_size = *long_page_start & 0x7fffffffffffffff;
-        munmap(ptr, map_page_size);
+        map_page_size = *long_page_start & 0x7fff;
+        munmap(long_page_start, map_page_size * page_size);
         return;
     }else{
         //get the size of the page
@@ -167,7 +167,7 @@ void * realloc(void * ptr, size_t size){
 
     // get the length
     if(*long_page_start < 0){
-        old_length = (*long_page_start & 0x7fffffffffffffff);
+        old_length = (*long_page_start & 0x7fff);
     }else{
         short* small_page = (short*)temp;
         old_length = *(small_page + 4);
@@ -217,13 +217,15 @@ void* new_map(int map_page_size){
 }
 
 void * big_map(int size){
-    long* temp = NULL;
-    void * map = mmap ( NULL , size + 8, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1 , 0);
-    temp = map;
+    short* temp = NULL;
+    int total_maps = ((size + 2) % page_size) + 1;
+    total_maps *= page_size;
+    void * map = mmap ( NULL , total_maps, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1 , 0);
+    temp = (short*)map;
 
     //set size
-    *temp = size + 8;
-    *temp |= 0x8000000000000000;
+    *temp = total_maps;
+    *temp |= 0x8000;
     temp++;
     return temp;
 }
