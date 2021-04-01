@@ -39,7 +39,7 @@ int main(int argc, char** argv){
     for( int i = 0; i < 150000; ++i){
         //randomly pick a pointer
         int index = rand() % 100;
-        int num = rand() % 2000;
+        int num = rand() % 2000 + 1;
         //if its null randomly allocate a random amount of memory
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
         }else{
             //else if the random is below 1000, randomly reallocate new memory
             if(num < 1000){
-                int num = rand() % 2000;
+                int num = rand() % 2000 + 1;
                 char test = *ptr[index];
                 ptr[index] = realloc(ptr[index], num);
                 *ptr[index] = num % 256;
