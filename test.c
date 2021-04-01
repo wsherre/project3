@@ -9,41 +9,18 @@
 int main(int argc, char** argv){
 
     char* ptr[1000000];
+
+
+    //if you wwant true randomness uncomment these two lines, but it'll make it harder to debug
     //time_t t;
     //srand((unsigned) time(&t));
 
 
-    /*for(int i = 1; i < k; ++i){
-        ptr[i] = malloc(k);
-        *ptr[i] = i;
-        fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
-    }
-    for(int i = 1; i < k; ++i){
-        int num = rand() % 4000;
-        ptr[i] = realloc(ptr[i], i);
-        *ptr[i] = i;
-        fprintf(stdout, "Reallocing %p %d %d\n", ptr[i], i, num);
-    }
-    for(int i = 1; i < k; ++i){
-        free(ptr[i]);
-        c
-    }*/
-    /*for(int i = 0; i < 10000; ++i){
-        ptr[i] = malloc(8);
-        memset(ptr[i], i, 8);`
-        fprintf(stdout, "Mallocing %p %d %d\n", ptr[i], *ptr[i], i);
-    }*/
+    
     char n[400];
-    for( int i = 0; i < 5; ++i){
-        ptr[i] = malloc(4095);
-        memset(ptr[i], 1, 4095);
-        printf("%p\n", ptr[i]);
-    }
-    for( int i = 0; i < 5; ++i){
-        free(ptr[i]);
-    }
+    //assert that memcpy works
     for(int i = 0; i < 400; ++i){
-        ptr[i] = malloc(8);
+        ptr[i] = malloc(16);
         *ptr[i] = i % 256;
         n[i] = i % 256;
         //fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
@@ -58,22 +35,28 @@ int main(int argc, char** argv){
     for(int i = 0; i < 400; ++i){
         ptr[i] = NULL;
     }
-    for( int i = 0; i < 5000000; ++i){
+    //code will seem slow but that's only because it takes printf forever to print out
+    for( int i = 0; i < 150000; ++i){
+        //randomly pick a pointer
         int index = rand() % 100;
-        int num = rand() % 1024 + 1;
+        int num = rand() % 2000;
+        //if its null randomly allocate a random amount of memory
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
-            *ptr[index] = 1;
-            //fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
+            *ptr[index] = num % 256;
+            fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
-            if(num < 512){
-                int num = rand() % 1024 + 1;
+            //else if the random is below 1000, randomly reallocate new memory
+            if(num < 1000){
+                int num = rand() % 2000;
+                char test = *ptr[index];
                 ptr[index] = realloc(ptr[index], num);
-                *ptr[index] = 0;
-                //fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
+                *ptr[index] = num % 256;
+                assert(*ptr[index] == test);
+                fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
                 free(ptr[index]);
-                //fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
+                fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
                 ptr[index] = NULL;
             }
         }
@@ -81,7 +64,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < 100; ++i){
         if(ptr[i] != NULL){
             free(ptr[i]);
-            //fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
+            fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
         }
     }
 
