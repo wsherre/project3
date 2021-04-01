@@ -17,26 +17,11 @@ int main(int argc, char** argv){
 
 
     
-    char n[400];
-    //assert that memcpy works
-    for(int i = 0; i < 400; ++i){
-        ptr[i] = malloc(16);
-        *ptr[i] = i % 256;
-        n[i] = i % 256;
-        //fprintf(stdout, "Mallocing %p %d\n", ptr[i], *ptr[i]);
-    }
-    for(int i = 0; i < 400; ++i){
-        ptr[i] = realloc(ptr[i], 8);
-        assert(*ptr[i] == n[i]);
-    }
-    for(int i = 0; i < 400; ++i){
-        free(ptr[i]);
-    }
-    for(int i = 0; i < 400; ++i){
-        ptr[i] = NULL;
-    }
+    int operations = 0;
+    printf("Enter number of operations between 1 and 5000000: ");
+    scanf("%d", &operations);
     //code will seem slow but that's only because it takes printf forever to print out
-    for( int i = 0; i < 150000; ++i){
+    for( int i = 0; i < operations; ++i){
         //randomly pick a pointer
         int index = rand() % 100;
         int num = rand() % 2000 + 1;
@@ -44,7 +29,7 @@ int main(int argc, char** argv){
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
             *ptr[index] = num % 95 + 32;
-            fprintf(stdout, "Mallocing Pointer: %p  Value: %c Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
+            //fprintf(stdout, "Mallocing Pointer: %p  Value: %c Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             //else if the random is below 1000, randomly reallocate new memory
             if(num < 1000){
@@ -52,10 +37,10 @@ int main(int argc, char** argv){
                 char test = *ptr[index];
                 ptr[index] = realloc(ptr[index], num);
                 assert(*ptr[index] == test);
-                fprintf(stdout, "Reallocing Pointer: %p  Value: %c Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
+                //fprintf(stdout, "Reallocing Pointer: %p  Value: %c Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
                 free(ptr[index]);
-                fprintf(stdout, "Freeing Pointer: %p Index: %d\n", ptr[index], index);
+                //fprintf(stdout, "Freeing Pointer: %p Index: %d\n", ptr[index], index);
                 ptr[index] = NULL;
             }
         }
@@ -67,6 +52,7 @@ int main(int argc, char** argv){
         }
     }
 
+    printf("Your code runs successfully!!\n");
     
     return 0;
 }
