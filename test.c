@@ -51,7 +51,6 @@ int main(int argc, char** argv){
                 int num = rand() % 2000 + 1;
                 char test = *ptr[index];
                 ptr[index] = realloc(ptr[index], num);
-                *ptr[index] = num % 95 + 32;
                 assert(*ptr[index] == test);
                 fprintf(stdout, "Reallocing Pointer: %p  Value: %c Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
