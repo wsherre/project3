@@ -16,7 +16,7 @@ int main(int argc, char** argv){
     //srand((unsigned) time(&t));
 
 
-    
+    //uncomment lines 32,40,43,51 if you want to see what you code is doing
     int operations = 0;
     printf("Enter number of operations between 1 and 5000000: ");
     scanf("%d", &operations);
@@ -36,6 +36,7 @@ int main(int argc, char** argv){
                 int num = rand() % 2000 + 1;
                 char test = *ptr[index];
                 ptr[index] = realloc(ptr[index], num);
+                //assert that the memory is still the same
                 assert(*ptr[index] == test);
                 //fprintf(stdout, "Reallocing Pointer: %p  Value: %c Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
