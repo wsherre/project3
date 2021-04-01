@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < 100; ++i){
         if(ptr[i] != NULL){
             free(ptr[i]);
-            fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
+            //fprintf(stdout, "Freeing %p %d\n", ptr[i], i);
         }
     }
 
