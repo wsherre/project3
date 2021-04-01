@@ -44,7 +44,7 @@ int main(int argc, char** argv){
         if(ptr[index] == NULL){
             ptr[index] = malloc(num);
             *ptr[index] = num % 256;
-            fprintf(stdout, "Mallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
+            fprintf(stdout, "Mallocing Pointer: %p  Value: %d Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
         }else{
             //else if the random is below 1000, randomly reallocate new memory
             if(num < 1000){
@@ -53,10 +53,10 @@ int main(int argc, char** argv){
                 ptr[index] = realloc(ptr[index], num);
                 *ptr[index] = num % 256;
                 assert(*ptr[index] == test);
-                fprintf(stdout, "Reallocing %p %d %d %d %d\n", ptr[index], *ptr[index], num, index, i);
+                fprintf(stdout, "Reallocing Pointer: %p  Value: %d Random num: %d Index: %d Operation num: %d\n", ptr[index], *ptr[index], num, index, i);
             }else{
                 free(ptr[index]);
-                fprintf(stdout, "Freeing %p %d\n", ptr[index], index);
+                fprintf(stdout, "Freeing Pointer: %p Index: %d\n", ptr[index], index);
                 ptr[index] = NULL;
             }
         }
